@@ -1,0 +1,442 @@
+/**
+ * THE RAIL EXCHANGE™ — Get Verified (Upsell Page)
+ * 
+ * This is the MARKETING page explaining why contractors should get verified.
+ * NOT the document upload flow - that's at /dashboard/contractor/verify/start
+ * 
+ * Shows:
+ * - Benefits of verification
+ * - What's included
+ * - Pricing ($149/year)
+ * - Begin Verification CTA
+ */
+
+'use client';
+
+import { useState, useEffect } from 'react';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import {
+  Shield,
+  BadgeCheck,
+  TrendingUp,
+  Star,
+  Users,
+  CheckCircle,
+  ArrowRight,
+  Loader2,
+  Clock,
+  XCircle,
+  FileCheck,
+} from 'lucide-react';
+
+type VerificationStatus = 'none' | 'pending' | 'ai_approved' | 'approved' | 'verified' | 'rejected' | 'expired';
+
+interface VerificationState {
+  verificationStatus: VerificationStatus;
+  hasContractorProfile: boolean;
+}
+
+export default function GetVerifiedPage() {
+  const { data: session, status: sessionStatus } = useSession();
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
+  const [verificationState, setVerificationState] = useState<VerificationState | null>(null);
+
+  // Fetch current verification status
+  useEffect(() => {
+    async function fetchStatus() {
+      try {
+        const res = await fetch('/api/contractors/verification/status');
+        if (res.ok) {
+          const data = await res.json();
+          setVerificationState(data);
+        }
+      } catch (err) {
+        console.error('Failed to fetch verification status:', err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    if (session?.user) {
+      fetchStatus();
+    } else if (sessionStatus !== 'loading') {
+      setLoading(false);
+    }
+  }, [session, sessionStatus]);
+
+  // Redirect if not authenticated
+  if (sessionStatus === 'unauthenticated') {
+    router.push('/auth/login?callbackUrl=/dashboard/contractor/verify');
+    return null;
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
+      </div>
+    );
+  }
+
+  // Show status if already in verification process
+  if (verificationState?.verificationStatus && verificationState.verificationStatus !== 'none') {
+    return (
+      <div className="max-w-3xl mx-auto">
+        <VerificationStatusCard status={verificationState.verificationStatus} />
+      </div>
+    );
+  }
+
+  // Check if user has a contractor profile first
+  if (!verificationState?.hasContractorProfile) {
+    return (
+      <div className="max-w-3xl mx-auto">
+        <div className="bg-white rounded-xl border border-slate-200 p-8 text-center">
+          <Shield className="w-16 h-16 text-slate-300 mx-auto mb-4" />
+          <h2 className="text-xl font-bold text-navy-900 mb-2">Create Your Profile First</h2>
+          <p className="text-slate-500 mb-6">
+            Before getting verified, you need to create your free contractor profile.
+            This lets potential clients see your business info and services.
+          </p>
+          <Link
+            href="/dashboard/contractor/profile"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-semibold"
+          >
+            Create Contractor Profile
+            <ArrowRight className="w-5 h-5" />
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="max-w-4xl mx-auto">
+      {/* Header */}
+      <div className="text-center mb-10">
+        <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-2xl mb-4">
+          <Shield className="w-8 h-8 text-blue-600" />
+        </div>
+        <h1 className="text-3xl font-bold text-navy-900 mb-3">
+          Get Verified as a Contractor
+        </h1>
+        <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+          Complete document review to display a verification badge on your profile.
+        </p>
+      </div>
+
+      {/* Benefits Grid */}
+      <div className="grid md:grid-cols-3 gap-6 mb-10">
+        <BenefitCard
+          icon={TrendingUp}
+          title="Higher Ranking"
+          description="Document-reviewed contractors appear higher in search results and directory listings."
+          iconBg="bg-green-100"
+          iconColor="text-green-600"
+        />
+        <BenefitCard
+          icon={BadgeCheck}
+          title="Verification Badge"
+          description="Your profile displays a verification badge after document review."
+          iconBg="bg-blue-100"
+          iconColor="text-blue-600"
+        />
+        <BenefitCard
+          icon={Users}
+          title="Enhanced Visibility"
+          description="Document-reviewed contractors may receive enhanced visibility in search results."
+          iconBg="bg-purple-100"
+          iconColor="text-purple-600"
+        />
+      </div>
+
+      {/* What's Included */}
+      <div className="bg-white rounded-xl border border-slate-200 p-8 mb-10">
+        <h2 className="text-xl font-bold text-navy-900 mb-6 text-center">
+          What&apos;s Included in Document Review
+        </h2>
+        <div className="grid sm:grid-cols-2 gap-4">
+          <IncludedItem text="Identity Document Review" />
+          <IncludedItem text="Insurance Document Review" />
+          <IncludedItem text="Safety Certifications Review" />
+          <IncludedItem text="Business Documentation Check" />
+          <IncludedItem text="AI-Assisted Document Review" />
+          <IncludedItem text="Human Admin Review" />
+        </div>
+      </div>
+
+      {/* Pricing Box - Professional Access Options */}
+      <div className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl p-8 text-white mb-10">
+        <div className="text-center mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white/20 rounded-full text-sm font-medium mb-4">
+            <Star className="w-4 h-4" />
+            Professional Access
+          </div>
+          <h3 className="text-2xl font-bold mb-2">Choose Your Billing Option</h3>
+          <p className="text-blue-200 text-sm">
+            Professional Access includes verification, analytics, map visibility, and full dashboard access.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-4 mb-6">
+          {/* Annual - Best Value */}
+          <div className="bg-white/10 backdrop-blur rounded-xl p-6 border-2 border-white/30">
+            <div className="text-xs font-semibold text-green-300 mb-2">Best Value — Save $2,000</div>
+            <div className="flex items-baseline gap-1 mb-2">
+              <span className="text-4xl font-bold">$2,500</span>
+              <span className="text-blue-200">/year</span>
+            </div>
+            <p className="text-blue-200 text-sm mb-4">Single annual payment. Discounted rate.</p>
+            <Link
+              href="/dashboard/contractor/verify/start?billing=annual"
+              className="block w-full text-center px-6 py-3 bg-white text-blue-600 rounded-lg hover:bg-blue-50 transition-colors font-bold"
+            >
+              Get Annual Plan
+            </Link>
+          </div>
+
+          {/* Installment */}
+          <div className="bg-white/5 backdrop-blur rounded-xl p-6 border border-white/10">
+            <div className="text-xs font-semibold text-blue-200 mb-2">Installment Option</div>
+            <div className="flex items-baseline gap-1 mb-2">
+              <span className="text-4xl font-bold">$1,500</span>
+              <span className="text-blue-200">/5 months</span>
+            </div>
+            <p className="text-blue-200 text-sm mb-4">3 payments/year • $4,500 total annually</p>
+            <Link
+              href="/dashboard/contractor/verify/start?billing=installment"
+              className="block w-full text-center px-6 py-3 bg-white/20 text-white rounded-lg hover:bg-white/30 transition-colors font-semibold"
+            >
+              Get Installment Plan
+            </Link>
+          </div>
+        </div>
+
+        <p className="text-center text-blue-200 text-sm">
+          Both Contractors and Companies receive identical access. Annual billing offers the best value.
+        </p>
+        <p className="text-center text-blue-300 text-xs mt-2">
+          Verification reflects document submission and review only. Does not guarantee transactions or outcomes.
+        </p>
+      </div>
+
+      {/* AI Disclosure Notice */}
+      <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-10">
+        <div className="flex gap-3">
+          <div className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+              <path fillRule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 01.67 1.34l-.04.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 11-.671-1.34l.041-.022zM12 9a.75.75 0 100-1.5.75.75 0 000 1.5z" clipRule="evenodd" />
+            </svg>
+          </div>
+          <div className="text-sm">
+            <p className="font-medium text-amber-800 mb-1">AI-Assisted Verification</p>
+            <p className="text-amber-700">
+              Verification is assisted by automated systems and human review. It does not constitute 
+              endorsement, certification, or approval of any contractor, business, or service quality.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* FAQ / Process Steps */}
+      <div className="bg-slate-50 rounded-xl p-8">
+        <h2 className="text-xl font-bold text-navy-900 mb-6">How It Works</h2>
+        <div className="space-y-4">
+          <ProcessStep
+            number={1}
+            title="Submit Documents"
+            description="Upload your identity, insurance certificate, and any safety certifications."
+          />
+          <ProcessStep
+            number={2}
+            title="AI Review"
+            description="Our AI system checks documents for validity and flags any issues."
+          />
+          <ProcessStep
+            number={3}
+            title="Admin Approval"
+            description="A human admin reviews your submission and approves your badge."
+          />
+          <ProcessStep
+            number={4}
+            title="Badge Activated"
+            description="Your verified badge appears on your profile and in search results."
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Components
+function BenefitCard({
+  icon: Icon,
+  title,
+  description,
+  iconBg,
+  iconColor,
+}: {
+  icon: React.ElementType;
+  title: string;
+  description: string;
+  iconBg: string;
+  iconColor: string;
+}) {
+  return (
+    <div className="bg-white rounded-xl border border-slate-200 p-6 text-center">
+      <div className={`inline-flex items-center justify-center w-12 h-12 ${iconBg} rounded-xl mb-4`}>
+        <Icon className={`w-6 h-6 ${iconColor}`} />
+      </div>
+      <h3 className="text-lg font-semibold text-navy-900 mb-2">{title}</h3>
+      <p className="text-slate-500 text-sm">{description}</p>
+    </div>
+  );
+}
+
+function IncludedItem({ text }: { text: string }) {
+  return (
+    <div className="flex items-center gap-3">
+      <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
+      <span className="text-navy-900">{text}</span>
+    </div>
+  );
+}
+
+function ProcessStep({
+  number,
+  title,
+  description,
+}: {
+  number: number;
+  title: string;
+  description: string;
+}) {
+  return (
+    <div className="flex gap-4">
+      <div className="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0">
+        {number}
+      </div>
+      <div>
+        <h4 className="font-semibold text-navy-900">{title}</h4>
+        <p className="text-slate-500 text-sm">{description}</p>
+      </div>
+    </div>
+  );
+}
+
+function VerificationStatusCard({ status }: { status: VerificationStatus }) {
+  const statusConfig = {
+    none: {
+      icon: Shield,
+      title: 'Not Verified',
+      description: 'Start document review to earn a verification badge.',
+      bg: 'bg-slate-50',
+      border: 'border-slate-200',
+      iconBg: 'bg-slate-100',
+      iconColor: 'text-slate-600',
+      action: {
+        text: 'Begin Verification',
+        href: '/dashboard/contractor/verify/start',
+      },
+    },
+    pending: {
+      icon: Clock,
+      title: 'Verification Pending',
+      description: 'Your documents are being reviewed. This usually takes 1-2 business days.',
+      bg: 'bg-yellow-50',
+      border: 'border-yellow-200',
+      iconBg: 'bg-yellow-100',
+      iconColor: 'text-yellow-600',
+    },
+    ai_approved: {
+      icon: FileCheck,
+      title: 'Document Review Complete',
+      description: 'Your documents passed review! Complete payment to activate your verification badge.',
+      bg: 'bg-blue-50',
+      border: 'border-blue-200',
+      iconBg: 'bg-blue-100',
+      iconColor: 'text-blue-600',
+      action: {
+        text: 'Complete Payment',
+        href: '/dashboard/contractor/verify/payment',
+      },
+    },
+    approved: {
+      icon: CheckCircle,
+      title: 'Approved - Awaiting Payment',
+      description: 'Your verification is approved! Complete payment to activate your verification badge.',
+      bg: 'bg-green-50',
+      border: 'border-green-200',
+      iconBg: 'bg-green-100',
+      iconColor: 'text-green-600',
+      action: {
+        text: 'Complete Payment',
+        href: '/dashboard/contractor/verify/payment',
+      },
+    },
+    verified: {
+      icon: BadgeCheck,
+      title: 'Verified Contractor',
+      description: 'Congratulations! Your verified badge is active and visible on your profile.',
+      bg: 'bg-green-50',
+      border: 'border-green-200',
+      iconBg: 'bg-green-100',
+      iconColor: 'text-green-600',
+      action: {
+        text: 'View Profile',
+        href: '/dashboard/contractor/profile',
+      },
+    },
+    rejected: {
+      icon: XCircle,
+      title: 'Verification Rejected',
+      description: 'Unfortunately, your verification was not approved. Please review the feedback and try again.',
+      bg: 'bg-red-50',
+      border: 'border-red-200',
+      iconBg: 'bg-red-100',
+      iconColor: 'text-red-600',
+      action: {
+        text: 'Try Again',
+        href: '/dashboard/contractor/verify/start',
+      },
+    },
+    expired: {
+      icon: Clock,
+      title: 'Verification Expired',
+      description: 'Your verified status has expired. Renew to maintain your badge.',
+      bg: 'bg-orange-50',
+      border: 'border-orange-200',
+      iconBg: 'bg-orange-100',
+      iconColor: 'text-orange-600',
+      action: {
+        text: 'Renew Verification',
+        href: '/dashboard/contractor/verify/start',
+      },
+    },
+  };
+
+  const config = statusConfig[status] || statusConfig.pending;
+  const Icon = config.icon;
+
+  return (
+    <div className={`${config.bg} ${config.border} border rounded-xl p-8 text-center`}>
+      <div className={`inline-flex items-center justify-center w-16 h-16 ${config.iconBg} rounded-2xl mb-4`}>
+        <Icon className={`w-8 h-8 ${config.iconColor}`} />
+      </div>
+      <h2 className="text-xl font-bold text-navy-900 mb-2">{config.title}</h2>
+      <p className="text-slate-600 mb-6">{config.description}</p>
+      {'action' in config && config.action && (
+        <Link
+          href={config.action.href}
+          className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-semibold"
+        >
+          {config.action.text}
+          <ArrowRight className="w-5 h-5" />
+        </Link>
+      )}
+    </div>
+  );
+}
