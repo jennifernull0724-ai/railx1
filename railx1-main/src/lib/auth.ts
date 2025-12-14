@@ -52,70 +52,82 @@ export const authOptions: NextAuthOptions = {
         },
       },
       async authorize(credentials) {
-        // Auth restored after stabilization - real admin detection
-        console.log('[AUTH] authorize() called with email:', credentials?.email);
-        
-        if (!credentials?.email || !credentials?.password) {
-          console.log('[AUTH] Missing email or password');
-          return null; // Must return null, not throw
-        }
-
+        // SIMPLIFIED DEBUG VERSION - Find exactly where it fails
         try {
-          await connectDB();
+          console.log('AUTH START - email:', credentials?.email);
+          
+          if (!credentials?.email || !credentials?.password) {
+            console.log('AUTH FAIL: Missing credentials');
+            return null;
+          }
 
-          // Find user with password field included
-          const user = await User.findByEmail(credentials.email);
-          console.log('[AUTH] User lookup result:', user ? `Found user ${user._id} isAdmin=${user.isAdmin}` : 'NOT FOUND');
+          await connectDB();
+          console.log('AUTH: DB connected');
+
+          // Use direct findOne with password selected (not findByEmail wrapper)
+          const user = await User.findOne({ email: credentials.email.toLowerCase() })
+            .select('+password')
+            .lean();
+          
+          console.log('AUTH: User found:', user ? {
+            id: user._id?.toString(),
+            email: user.email,
+            isAdmin: user.isAdmin,
+            isActive: user.isActive,
+            hasPassword: !!user.password,
+            passwordLength: user.password?.length
+          } : 'NOT FOUND');
 
           if (!user) {
-            // SECURITY: Log failed attempt - account not found
-            await logFailedAttempt(credentials.email, 'account_not_found');
-            return null; // Standard NextAuth pattern - return null on failure
+            console.log('AUTH FAIL: User not found');
+            return null;
           }
 
           if (!user.isActive) {
-            // SECURITY: Log failed attempt - account inactive
-            await logFailedAttempt(credentials.email, 'account_inactive', user._id.toString());
-            return null; // Standard NextAuth pattern - return null on failure
+            console.log('AUTH FAIL: User inactive');
+            return null;
           }
 
-          // Verify password
-          const isPasswordValid = await user.comparePassword(credentials.password);
-
-          if (!isPasswordValid) {
-            // SECURITY: Log failed attempt - invalid credentials
-            await logFailedAttempt(credentials.email, 'invalid_credentials', user._id.toString());
-            return null; // Standard NextAuth pattern - return null on failure
+          if (!user.password) {
+            console.log('AUTH FAIL: No password in DB');
+            return null;
           }
 
-          // Update last login
-          user.lastLogin = new Date();
-          await user.save();
+          // Direct bcrypt compare
+          const bcrypt = await import('bcryptjs');
+          const isValid = await bcrypt.compare(credentials.password, user.password);
+          console.log('AUTH: Password valid:', isValid);
 
-          // Return user data for session
-          // Admin detection: explicit isAdmin field OR legacy role === 'admin'
-          const isAdmin: boolean = user.isAdmin === true || user.role === 'admin';
-          
+          if (!isValid) {
+            console.log('AUTH FAIL: Invalid password');
+            return null;
+          }
+
+          // Construct return object - MINIMAL for debug
           const returnUser = {
             id: user._id.toString(),
             email: user.email,
-            name: user.name,
-            role: user.role, // Legacy - kept for backwards compat
+            name: user.name || 'User',
+            role: user.role || 'buyer',
             image: user.image || undefined,
-            // Capability flags
-            isSeller: user.isSeller ?? true, // Default true for all users
+            isSeller: user.isSeller ?? true,
             isContractor: user.isContractor ?? false,
-            isAdmin: isAdmin, // Explicit boolean, no inference
-            // Subscription info
+            isAdmin: user.isAdmin === true || user.role === 'admin',
             subscriptionTier: user.sellerTier !== 'buyer' ? user.sellerTier : undefined,
             isVerifiedContractor: user.contractorTier === 'verified',
             contractorTier: user.contractorTier,
           };
-          console.log('[AUTH] Returning user:', { id: returnUser.id, email: returnUser.email, isAdmin: returnUser.isAdmin });
+          
+          console.log('AUTH SUCCESS - returning:', JSON.stringify({
+            id: returnUser.id,
+            email: returnUser.email,
+            isAdmin: returnUser.isAdmin
+          }));
+          
           return returnUser;
-        } catch (error) {
-          console.error('[AUTH] Auth error caught:', error);
-          return null; // On any error, return null instead of throwing
+        } catch (err) {
+          console.error('AUTH ERROR:', err);
+          return null;
         }
       },
     }),
