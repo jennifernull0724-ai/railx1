@@ -256,6 +256,81 @@ export function DistributionRegions({ regions, maxDisplay = 8, className = '' }:
 }
 
 // ============================================================================
+// COMPANY LOCATIONS (Multiple Locations Display)
+// ============================================================================
+
+interface CompanyLocation {
+  city?: string;
+  state?: string;
+  country?: string;
+  isPrimary?: boolean;
+}
+
+interface CompanyLocationsProps {
+  locations: CompanyLocation[];
+  maxDisplay?: number;
+  className?: string;
+}
+
+export function CompanyLocations({ locations, maxDisplay = 6, className = '' }: CompanyLocationsProps) {
+  if (!locations || locations.length === 0) return null;
+
+  // Sort primary location first
+  const sortedLocations = [...locations].sort((a, b) => {
+    if (a.isPrimary && !b.isPrimary) return -1;
+    if (!a.isPrimary && b.isPrimary) return 1;
+    return 0;
+  });
+
+  const displayedLocations = sortedLocations.slice(0, maxDisplay);
+  const remainingCount = Math.max(0, locations.length - maxDisplay);
+
+  const formatLocation = (loc: CompanyLocation) => {
+    const parts = [loc.city, loc.state, loc.country].filter(Boolean);
+    return parts.join(', ');
+  };
+
+  return (
+    <div className={`bg-white rounded-2xl shadow-card border border-surface-border p-6 ${className}`}>
+      <div className="flex items-center gap-2 mb-4">
+        <MapPin className="w-5 h-5 text-text-tertiary" />
+        <h2 className="font-semibold text-navy-900">Locations</h2>
+        <span className="text-xs text-text-tertiary">(Self-reported)</span>
+      </div>
+      
+      <div className="space-y-2">
+        {displayedLocations.map((location, index) => {
+          const locationStr = formatLocation(location);
+          if (!locationStr) return null;
+          
+          return (
+            <div
+              key={index}
+              className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm ${
+                location.isPrimary 
+                  ? 'bg-blue-50 text-blue-700 border border-blue-200' 
+                  : 'bg-surface-secondary text-navy-900'
+              }`}
+            >
+              <MapPin className="w-4 h-4 flex-shrink-0" />
+              <span>{locationStr}</span>
+              {location.isPrimary && (
+                <span className="text-xs font-medium ml-auto">(HQ)</span>
+              )}
+            </div>
+          );
+        })}
+        {remainingCount > 0 && (
+          <p className="text-xs text-text-tertiary mt-2">
+            +{remainingCount} additional location{remainingCount > 1 ? 's' : ''}
+          </p>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ============================================================================
 // COMPANY DETAILS BLOCK (HQ, Years, etc.)
 // ============================================================================
 
@@ -338,7 +413,7 @@ export function CompanyVerificationBlock({ isVerified, isSponsored, className = 
     <div className={`bg-white rounded-2xl shadow-card border border-surface-border p-6 ${className}`}>
       <div className="flex items-center gap-2 mb-4">
         <ShieldCheck className="w-5 h-5 text-text-tertiary" />
-        <h2 className="font-semibold text-navy-900">Verification</h2>
+        <h2 className="font-semibold text-navy-900">Company Verification</h2>
       </div>
       
       <div className="space-y-3">
@@ -361,12 +436,11 @@ export function CompanyVerificationBlock({ isVerified, isSponsored, className = 
         )}
       </div>
       
-      {/* MANDATORY DISCLOSURE */}
+      {/* MANDATORY AI DISCLOSURE - Company-specific copy */}
       <div className="mt-4 p-3 bg-slate-50 rounded-lg border border-slate-200">
         <p className="text-xs text-slate-600">
-          Verification reflects document submission and review only. It does not guarantee 
-          performance, authority, compliance, or transaction outcomes. Verification is assisted 
-          by automated (AI) analysis and human review.
+          Company verification is assisted by AI and human review. It confirms submitted 
+          business documentation only and does not imply endorsement or certification.
         </p>
       </div>
     </div>

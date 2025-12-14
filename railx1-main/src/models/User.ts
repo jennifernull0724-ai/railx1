@@ -33,6 +33,53 @@ export interface IUser {
   lastLogin?: Date;
   
   // ============================================
+  // PROFILE MODE FLAG
+  // Determines if user profile is Company (products) vs Contractor (services)
+  // ============================================
+  profileType: 'contractor' | 'company' | null;
+  
+  // ============================================
+  // COMPANY INFO (for profileType === 'company')
+  // Products, categories, locations - NOT services
+  // ============================================
+  companyInfo?: {
+    companyType?: 'manufacturer' | 'supplier' | 'distributor' | 'oem';
+    productCategories?: string[];
+    brandsRepresented?: string[];
+    marketsServed?: string[]; // freight-rail, short-line, industrial, transit
+    distributionRegions?: string[];
+    yearFounded?: number;
+    employeeCount?: string;
+    description?: string;
+    locations?: {
+      city?: string;
+      state?: string;
+      country?: string;
+      isPrimary?: boolean;
+    }[];
+  };
+  
+  // ============================================
+  // PUBLIC PROFILE FIELDS (shared by Company & Contractor)
+  // ============================================
+  displayName?: string;
+  tagline?: string;
+  bio?: string;
+  bannerImage?: string;
+  publicEmail?: string;
+  publicPhone?: string;
+  website?: string;
+  linkedIn?: string;
+  location?: {
+    city?: string;
+    state?: string;
+    country?: string;
+  };
+  
+  // Sponsored placement (Elite tier)
+  sponsoredPlacementActive?: boolean;
+  
+  // ============================================
   // CAPABILITY FLAGS (new capability-based system)
   // ============================================
   isSeller: boolean;           // True for ALL users by default (everyone can sell)
@@ -252,6 +299,97 @@ const UserSchema = new Schema<IUserDocument, IUserModel>(
         message: 'Role must be buyer, seller, contractor, or admin',
       },
       default: 'buyer',
+    },
+    
+    // ============================================
+    // PROFILE MODE FLAG
+    // Determines if user profile is Company (products) vs Contractor (services)
+    // ============================================
+    profileType: {
+      type: String,
+      enum: ['contractor', 'company', null],
+      default: null,
+    },
+    
+    // ============================================
+    // COMPANY INFO (for profileType === 'company')
+    // ============================================
+    companyInfo: {
+      companyType: {
+        type: String,
+        enum: ['manufacturer', 'supplier', 'distributor', 'oem', null],
+        default: null,
+      },
+      productCategories: [{ type: String }],
+      brandsRepresented: [{ type: String }],
+      marketsServed: [{ type: String }], // freight-rail, short-line, industrial, transit
+      distributionRegions: [{ type: String }],
+      yearFounded: { type: Number, default: null },
+      employeeCount: { type: String, default: null },
+      description: { type: String, maxlength: 2000, default: null },
+      locations: [{
+        city: { type: String },
+        state: { type: String },
+        country: { type: String },
+        isPrimary: { type: Boolean, default: false },
+      }],
+    },
+    
+    // ============================================
+    // PUBLIC PROFILE FIELDS (shared by Company & Contractor)
+    // ============================================
+    displayName: {
+      type: String,
+      trim: true,
+      maxlength: 150,
+      default: null,
+    },
+    tagline: {
+      type: String,
+      trim: true,
+      maxlength: 200,
+      default: null,
+    },
+    bio: {
+      type: String,
+      maxlength: 2000,
+      default: null,
+    },
+    bannerImage: {
+      type: String,
+      default: null,
+    },
+    publicEmail: {
+      type: String,
+      trim: true,
+      lowercase: true,
+      default: null,
+    },
+    publicPhone: {
+      type: String,
+      trim: true,
+      default: null,
+    },
+    website: {
+      type: String,
+      trim: true,
+      default: null,
+    },
+    linkedIn: {
+      type: String,
+      trim: true,
+      default: null,
+    },
+    location: {
+      city: { type: String, default: null },
+      state: { type: String, default: null },
+      country: { type: String, default: null },
+    },
+    
+    // Sponsored placement (Elite tier)
+    sponsoredPlacementActive: {
+      type: Boolean,
+      default: false,
     },
     
     // ============================================

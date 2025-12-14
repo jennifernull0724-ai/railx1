@@ -36,6 +36,7 @@ import {
   DistributionRegions,
   CompanyDetails,
   CompanyVerificationBlock,
+  CompanyLocations,
   ContactLinks,
   SelfReportedDisclaimer,
 } from '@/components/company/CompanyFactBlocks';
@@ -70,7 +71,7 @@ interface CompanyUser {
   createdAt?: Date;
   // OPUS: Company-specific fields
   companyInfo?: {
-    companyType?: string; // manufacturer, supplier, distributor, oem
+    companyType?: 'manufacturer' | 'supplier' | 'distributor' | 'oem';
     productCategories?: string[];
     brandsRepresented?: string[];
     marketsServed?: string[]; // freight-rail, short-line, industrial, transit
@@ -78,6 +79,13 @@ interface CompanyUser {
     yearFounded?: number;
     employeeCount?: string;
     description?: string;
+    // Multiple locations support
+    locations?: {
+      city?: string;
+      state?: string;
+      country?: string;
+      isPrimary?: boolean;
+    }[];
   };
   // Sponsored placement (Elite)
   sponsoredPlacementActive?: boolean;
@@ -188,6 +196,7 @@ export default async function CompanyProfilePage({ params }: PageProps) {
   const brandsRepresented = company?.companyInfo?.brandsRepresented || [];
   const marketsServed = company?.companyInfo?.marketsServed || [];
   const distributionRegions = company?.companyInfo?.distributionRegions || [];
+  const companyLocations = company?.companyInfo?.locations || [];
 
   return (
     <>
@@ -387,6 +396,11 @@ export default async function CompanyProfilePage({ params }: PageProps) {
                   yearFounded={company?.companyInfo?.yearFounded}
                   employeeCount={company?.companyInfo?.employeeCount}
                 />
+
+                {/* Company Locations (Multiple) */}
+                {companyLocations.length > 0 && (
+                  <CompanyLocations locations={companyLocations} />
+                )}
 
                 {/* Distribution Regions */}
                 <DistributionRegions regions={distributionRegions} />
