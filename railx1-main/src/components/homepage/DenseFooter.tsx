@@ -77,25 +77,25 @@ export function DenseFooter() {
             </ul>
           </div>
 
-          {/* Contractors Column */}
+          {/* Service Providers Column */}
           <div>
             <h4 className="text-[13px] font-semibold text-white uppercase tracking-wider mb-4">
-              Contractors
+              Service Providers
             </h4>
             <ul className="space-y-2.5">
               <li>
                 <Link href="/contractors" className="text-[13px] text-white/60 hover:text-white transition-colors">
-                  Find Contractors
+                  Find Service Providers
                 </Link>
               </li>
               <li>
                 <Link href="/contractors/onboard" className="text-[13px] text-white/60 hover:text-white transition-colors">
-                  Become a Contractor
+                  Promote Your Services
                 </Link>
               </li>
               <li>
                 <Link href="/contractors?verified=true" className="text-[13px] text-white/60 hover:text-white transition-colors">
-                  Verified Contractors
+                  Verified Providers
                 </Link>
               </li>
               <li>

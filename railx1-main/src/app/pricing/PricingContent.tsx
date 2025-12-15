@@ -154,7 +154,7 @@ export default function PricingContent() {
                     : 'border-transparent text-text-secondary hover:text-navy-900'
                 }`}
               >
-                Contractor Plans
+                Professional Services
               </button>
               <button
                 onClick={() => setActiveTab('addons')}
@@ -274,10 +274,19 @@ export default function PricingContent() {
               <div className="max-w-3xl mx-auto">
                 {/* Header */}
                 <div className="text-center mb-8">
-                  <h2 className="text-xl font-bold text-navy-900 mb-2">Professional Access</h2>
-                  <p className="text-text-secondary">
-                    Both Contractors and Companies receive full Professional Access. Profile formats differ; access does not.
+                  <h2 className="text-xl font-bold text-navy-900 mb-2">Professional Services Access</h2>
+                  <p className="text-text-secondary mb-4">
+                    One product, two entity types. Contractors and Companies get the same access, same price, same unlocks.
                   </p>
+                  <div className="inline-flex items-center gap-4 px-4 py-2 bg-slate-50 rounded-lg text-sm text-text-secondary">
+                    <span className="flex items-center gap-1.5">
+                      <span className="text-base">👷</span> Contractors
+                    </span>
+                    <span className="text-slate-300">|</span>
+                    <span className="flex items-center gap-1.5">
+                      <span className="text-base">🏢</span> Companies
+                    </span>
+                  </div>
                 </div>
 
                 {/* Pricing Options */}

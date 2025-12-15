@@ -47,9 +47,9 @@ const USE_CASES: UseCase[] = [
   },
   {
     id: 'contractors',
-    title: 'Source Rail Contractors',
-    subtitle: 'Verified FRA-qualified contractors for any project',
-    cta: 'Find Contractors',
+    title: 'Find Service Providers',
+    subtitle: 'Document-reviewed contractors & companies for any project',
+    cta: 'Browse Providers',
     href: '/contractors',
     bgColor: 'from-emerald-600 to-teal-700',
     icon: (

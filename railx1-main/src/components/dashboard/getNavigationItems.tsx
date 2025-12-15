@@ -130,7 +130,7 @@ export function getNavigationItems({
         icon: <InboxIcon />,
         badge: pendingInquiries > 0 ? pendingInquiries : undefined,
       },
-      { href: '/contractors', label: 'Find Contractors', icon: <UsersIcon /> },
+      { href: '/contractors', label: 'Service Providers', icon: <UsersIcon /> },
     ],
   });
 

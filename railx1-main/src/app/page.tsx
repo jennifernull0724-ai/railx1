@@ -202,7 +202,7 @@ export default async function HomePage() {
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
-                    <span>Find Contractors</span>
+                    <span>Find Service Providers</span>
                   </Link>
                 </div>
               </div>
@@ -288,19 +288,19 @@ export default async function HomePage() {
                 </div>
               </Link>
 
-              {/* Contractors */}
+              {/* Service Providers (Contractors & Companies) */}
               <Link
                 href="/contractors"
                 className="group bg-white rounded-xl p-5 md:p-6 border border-slate-200 shadow-sm hover:shadow-md hover:border-slate-300 transition-all duration-200"
               >
                 <div className="w-12 h-12 mx-auto mb-4 bg-emerald-500/10 rounded-xl flex items-center justify-center">
-                  <span className="text-2xl">👷</span>
+                  <span className="text-2xl">🏢</span>
                 </div>
                 <h3 className="text-[15px] font-semibold text-navy-900 text-center mb-1 group-hover:text-rail-orange transition-colors duration-200">
-                  Contractors
+                  Service Providers
                 </h3>
                 <p className="text-[13px] text-slate-500 text-center leading-snug mb-3">
-                  Document-Reviewed • Insurance Reviewed • Nationwide
+                  Contractors • Companies • Verified Nationwide
                 </p>
                 <div className="text-center">
                   <span className="inline-flex items-center px-2.5 py-1 bg-emerald-100 group-hover:bg-emerald-200 text-emerald-700 text-[11px] font-medium rounded-full transition-colors duration-200">
@@ -483,7 +483,7 @@ export default async function HomePage() {
                     href="/dashboard/contractor/verify" 
                     className="inline-flex items-center justify-center h-12 px-7 bg-white border-2 border-navy-900 text-navy-900 text-[15px] font-semibold rounded-xl hover:bg-navy-900 hover:text-white transition-all duration-200"
                   >
-                    Create Profile
+                    Promote Your Services
                   </Link>
                 </div>
               </div>
@@ -496,7 +496,7 @@ export default async function HomePage() {
                   
                   <div className="relative z-10">
                     <h3 className="text-[20px] md:text-[24px] font-bold text-white mb-2">Nationwide Coverage</h3>
-                    <p className="text-[14px] text-white/70">Find document-reviewed rail contractors across the USA</p>
+                    <p className="text-[14px] text-white/70">Find document-reviewed contractors & companies across the USA</p>
                   </div>
                   
                   {/* Features Grid */}
@@ -544,7 +544,7 @@ export default async function HomePage() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
-                    <span>Browse Contractor Directory</span>
+                    <span>Browse Service Providers</span>
                   </Link>
                 </div>
               </div>

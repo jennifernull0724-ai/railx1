@@ -408,7 +408,7 @@ export default async function AnalyticsPage() {
               href="/dashboard/contractor/verify"
               className="inline-flex items-center justify-center gap-2 bg-navy-900 hover:bg-navy-800 text-white font-medium py-3 px-6 rounded-xl transition-colors"
             >
-              Contractor Verification
+              Professional Services
             </Link>
           </div>
         </div>

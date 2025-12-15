@@ -38,9 +38,9 @@ const HERO_SLIDES: HeroSlide[] = [
     ctaLink: '/marketplace/category/railcars',
   },
   {
-    headline: 'Rail Contractors Directory',
-    subheadline: 'Find contractors with reviewed credentials.',
-    cta: 'Find Contractors',
+    headline: 'Service Providers Directory',
+    subheadline: 'Find contractors & companies with reviewed credentials.',
+    cta: 'Browse Providers',
     ctaLink: '/contractors',
   },
   {
@@ -108,7 +108,7 @@ export function HeroBanner() {
                 href="/contractors"
                 className="inline-flex items-center justify-center h-12 md:h-14 px-6 md:px-8 bg-white/10 backdrop-blur text-white text-[15px] md:text-[16px] font-semibold rounded-xl border border-white/20 hover:bg-white/20 transition-all duration-200"
               >
-                Find Contractors
+                Find Service Providers
               </Link>
             </div>
           </div>

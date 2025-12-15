@@ -1,8 +1,8 @@
 /**
 export const dynamic = 'force-dynamic';
- * THE RAIL EXCHANGE™ — Become a Contractor Page
+ * THE RAIL EXCHANGE™ — Activate Professional Services Page
  * 
- * Allows sellers to opt-in to contractor capabilities.
+ * Allows users to opt-in to professional service capabilities.
  * Sets isContractor: true via PATCH /api/user/update
  */
 
@@ -115,7 +115,7 @@ export default function BecomeContractorPage() {
           <Wrench className="h-8 w-8 text-blue-600" />
         </div>
         <h1 className="text-3xl font-bold text-navy-900 mb-4">
-          Become a Railroad Contractor
+          Activate Professional Services
         </h1>
         <p className="text-lg text-text-secondary max-w-2xl mx-auto">
           Expand your reach on The Rail Exchange. List your services, receive leads,
@@ -128,10 +128,10 @@ export default function BecomeContractorPage() {
         <div className="bg-green-50 border border-green-200 rounded-2xl p-8 text-center mb-8">
           <CheckCircle2 className="h-16 w-16 text-green-500 mx-auto mb-4" />
           <h2 className="text-2xl font-bold text-green-800 mb-2">
-            Welcome to the Contractor Network!
+            Professional Services Activated!
           </h2>
           <p className="text-green-700 mb-4">
-            Your account has been upgraded. Redirecting you to set up your contractor profile...
+            Your account has been upgraded. Redirecting you to set up your service profile...
           </p>
         </div>
       )}
@@ -184,7 +184,7 @@ export default function BecomeContractorPage() {
                   </>
                 ) : (
                   <>
-                    Become a Contractor
+                    Activate Services
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </>
                 )}
@@ -205,11 +205,11 @@ export default function BecomeContractorPage() {
             <div className="space-y-4">
               <div className="bg-white rounded-xl border border-surface-border p-6">
                 <h4 className="font-semibold text-navy-900 mb-2">
-                  Is it free to become a contractor?
+                  Is it free to activate professional services?
                 </h4>
                 <p className="text-text-secondary">
-                  Yes! Listing your services is completely free. The optional Verified Contractor
-                  badge costs $29.99/month and includes premium features.
+                  Yes! Listing your services is completely free. Optional Professional Access
+                  includes verification badge, analytics, and premium features.
                 </p>
               </div>
               <div className="bg-white rounded-xl border border-surface-border p-6">

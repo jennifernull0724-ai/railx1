@@ -423,12 +423,22 @@ export default async function ContractorsPage({
         <section className="bg-navy-900 text-white py-16">
           <div className="container-rail">
             <div className="max-w-3xl mx-auto text-center">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/10 backdrop-blur border border-white/20 rounded-full mb-4">
+                <span className="text-base">👷</span>
+                <span className="text-sm font-medium">Service Providers</span>
+              </div>
               <h1 className="text-display-md font-bold mb-4">
                 Rail Industry Contractors
               </h1>
-              <p className="text-heading-sm text-white/80">
+              <p className="text-heading-sm text-white/80 mb-6">
                 Find document-reviewed contractors for track work, signaling, electrical, bridge construction, and more.
               </p>
+              <Link
+                href="/companies"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 border border-white/20 rounded-lg text-sm font-medium transition-colors"
+              >
+                <span>🏢</span> View Companies Instead
+              </Link>
             </div>
           </div>
         </section>
@@ -603,12 +613,17 @@ export default async function ContractorsPage({
           <div className="container-rail text-center">
             <h2 className="heading-xl mb-4">Are you a rail service provider?</h2>
             <p className="text-body-lg text-text-secondary mb-8 max-w-2xl mx-auto">
-              Contractors and rail service companies can join The Rail Exchange to connect with buyers.
-              Get verified to stand out from the competition.
+              Both contractors and companies can join The Rail Exchange. 
+              Activate Professional Services to get listed, verified, and connected with buyers.
             </p>
-            <Link href="/contractors/onboard" className="btn-primary btn-lg">
-              Create Profile
-            </Link>
+            <div className="flex flex-wrap justify-center gap-4">
+              <Link href="/dashboard/contractor/verify" className="btn-primary btn-lg">
+                Activate Professional Services
+              </Link>
+              <Link href="/pricing?tab=contractor" className="btn-secondary btn-lg">
+                View Pricing
+              </Link>
+            </div>
           </div>
         </section>
       </main>
