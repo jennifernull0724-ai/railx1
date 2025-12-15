@@ -574,7 +574,7 @@ export default async function HomePage() {
                   </svg>
                 </summary>
                 <div className="px-5 pb-5 text-[14px] text-slate-600 leading-relaxed">
-                  Creating an account is free. Listings require seller verification ($29/year) to publish. Elite Placement ($99/30 days) is available to boost visibility.
+                  Creating an account requires a $1 verification fee. Listings require seller verification ($29/year) to publish. Elite Placement ($99/30 days) is available to boost visibility.
                 </div>
               </details>
 
@@ -587,8 +587,7 @@ export default async function HomePage() {
                   </svg>
                 </summary>
                 <div className="px-5 pb-5 text-[14px] text-slate-600 leading-relaxed">
-                  {/* S-2.6: Clarified verification description */}
-                  Purchase the Verified Seller badge ($149/year) and submit business documents for AI-assisted review. This includes company registration and industry documentation. Verification indicates document submission and review—it does not guarantee ownership, authority to sell, or transaction outcomes.
+                  Complete Seller Verification ($29/year) by submitting required business documentation for AI-assisted and administrative review. Verification confirms document submission and review only and does not guarantee ownership, authority to sell, compliance status, performance, or transaction outcomes.
                 </div>
               </details>
 
@@ -601,7 +600,7 @@ export default async function HomePage() {
                   </svg>
                 </summary>
                 <div className="px-5 pb-5 text-[14px] text-slate-600 leading-relaxed">
-                  We accept all rail-related equipment: locomotives, freight cars, passenger cars, tank cars, track materials (rail, ties, switches), MOW equipment (hi-rail trucks, tampers, rail grinders), signals, parts, and components. If it&apos;s used in the rail industry, it belongs here.
+                  You can list rail-related assets and services, including equipment, materials, real estate, and professional services used in the rail industry. This includes locomotives, railcars, MOW equipment, track and signal materials, tools, parts, property, and rail-specific services offered by verified service providers. If it supports rail operations, procurement, or maintenance, it belongs on the platform.
                 </div>
               </details>
 
@@ -640,7 +639,7 @@ export default async function HomePage() {
                   </svg>
                 </summary>
                 <div className="px-5 pb-5 text-[14px] text-slate-600 leading-relaxed">
-                  To protect users from spam, fraud, and misuse, all messages are sent through verified accounts. Creating an account is free and required only for direct contact — browsing is always available without signing in.
+                  To protect the marketplace from spam, fraud, and misuse, direct messaging is limited to registered accounts. Creating an account is free and allows secure communication through the platform. Browsing listings remains available without signing in.
                 </div>
               </details>
 
@@ -653,7 +652,7 @@ export default async function HomePage() {
                   </svg>
                 </summary>
                 <div className="px-5 pb-5 text-[14px] text-slate-600 leading-relaxed">
-                  No. Verification confirms that documents were submitted and reviewed. Buyers and sellers are responsible for conducting their own due diligence before any transaction.
+                  No. Verification indicates that required documents were submitted and reviewed. It does not guarantee performance, ownership, authority, or transaction outcomes. Buyers and sellers are responsible for conducting their own due diligence before entering into any agreement.
                 </div>
               </details>
             </div>
