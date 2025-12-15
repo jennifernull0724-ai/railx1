@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 /**
  * THE RAIL EXCHANGE™ — ISO (In Search Of) Request API
  * 

@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 /**
  * THE RAIL EXCHANGE™ — S3 Image Proxy API
  * 

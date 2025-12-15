@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 /**
  * DEBUG ENDPOINT - Remove after fixing auth issue
  * Tests the EXACT auth flow from authorize() to identify where it's failing

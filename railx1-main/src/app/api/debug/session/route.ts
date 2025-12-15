@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 /**
  * DEBUG ENDPOINT - Session check
  * Tests if authorize() succeeded and session was created
