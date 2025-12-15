@@ -341,7 +341,7 @@ export default async function HomePage() {
               </div>
               <Link
                 href="/listings?featured=true"
-                className="hidden md:inline-flex items-center gap-2 text-[14px] font-semibold text-navy-900 hover:text-rail-orange transition-colors duration-200"
+                className="inline-flex items-center gap-2 text-[14px] font-semibold text-navy-900 hover:text-rail-orange transition-colors duration-200"
               >
                 View All
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

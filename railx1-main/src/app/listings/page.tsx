@@ -487,7 +487,7 @@ export default async function ListingsPage({
         <section className="bg-white border-b border-surface-border py-6">
           <div className="container-rail">
             <form className="space-y-4">
-              {/* Search */}
+              {/* Search - always visible */}
               <div className="relative">
                 <svg
                   className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-text-tertiary"
@@ -511,8 +511,92 @@ export default async function ListingsPage({
                 />
               </div>
 
-              {/* Filter Row */}
-              <div className="flex flex-wrap gap-4">
+              {/* Mobile Filters - 2x2 grid */}
+              <div className="md:hidden grid grid-cols-2 gap-3">
+                <select
+                  name="category"
+                  defaultValue={params.category || ''}
+                  className="form-input text-sm"
+                >
+                  <option value="">All Categories</option>
+                  {LISTING_CATEGORIES.map((cat) => (
+                    <option key={cat} value={cat}>
+                      {CATEGORY_LABELS[cat] || cat}
+                    </option>
+                  ))}
+                </select>
+                <select
+                  name="condition"
+                  defaultValue={params.condition || ''}
+                  className="form-input text-sm"
+                >
+                  <option value="">All Conditions</option>
+                  {LISTING_CONDITIONS.map((cond) => (
+                    <option key={cond} value={cond}>
+                      {CONDITION_LABELS[cond] || cond}
+                    </option>
+                  ))}
+                </select>
+                <select
+                  name="state"
+                  defaultValue={params.state || ''}
+                  className="form-input text-sm"
+                >
+                  <option value="">All States</option>
+                  {US_STATES.map((state) => (
+                    <option key={state} value={state}>
+                      {state}
+                    </option>
+                  ))}
+                </select>
+                <select
+                  name="sortBy"
+                  defaultValue={params.sortBy || 'newest'}
+                  className="form-input text-sm"
+                >
+                  <option value="newest">Newest</option>
+                  <option value="oldest">Oldest</option>
+                  <option value="price-low">Price ↑</option>
+                  <option value="price-high">Price ↓</option>
+                  <option value="popular">Popular</option>
+                </select>
+                <div className="col-span-2 flex gap-2">
+                  <input
+                    type="number"
+                    name="minPrice"
+                    placeholder="Min $"
+                    defaultValue={params.minPrice || ''}
+                    className="form-input text-sm flex-1"
+                    min="0"
+                  />
+                  <input
+                    type="number"
+                    name="maxPrice"
+                    placeholder="Max $"
+                    defaultValue={params.maxPrice || ''}
+                    className="form-input text-sm flex-1"
+                    min="0"
+                  />
+                </div>
+                <button type="submit" className="btn-primary py-2 text-sm col-span-2">
+                  Search
+                </button>
+              </div>
+
+              {/* Mobile Clear */}
+              {(params.search || params.category || params.condition || params.state || params.minPrice || params.maxPrice) && (
+                <div className="md:hidden text-center">
+                  <Link
+                    href="/listings"
+                    className="text-body-sm font-medium text-text-secondary hover:text-navy-900"
+                  >
+                    Clear filters
+                  </Link>
+                </div>
+              )}
+
+              {/* Filter Row - Desktop */}
+              <div className="hidden md:flex flex-wrap gap-4">
                 {/* Category */}
                 <select
                   name="category"

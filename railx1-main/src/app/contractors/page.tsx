@@ -443,86 +443,135 @@ export default async function ContractorsPage({
         {/* Filters */}
         <section className="bg-white border-b border-surface-border py-6">
           <div className="container-rail">
-            <form className="flex flex-wrap items-center gap-4">
-              {/* Search */}
-              <div className="flex-1 min-w-[240px]">
-                <div className="relative">
-                  <svg
-                    className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-text-tertiary"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                    />
-                  </svg>
-                  <input
-                    type="text"
-                    name="search"
-                    placeholder="Search contractors..."
-                    defaultValue={params.search || ''}
-                    className="form-input pl-12"
+            <form className="space-y-4">
+              {/* Search - always visible */}
+              <div className="relative">
+                <svg
+                  className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-text-tertiary"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                   />
-                </div>
+                </svg>
+                <input
+                  type="text"
+                  name="search"
+                  placeholder="Search contractors..."
+                  defaultValue={params.search || ''}
+                  className="form-input pl-12 w-full"
+                />
               </div>
 
-              {/* Service Filter (Legacy) */}
-              <select
-                name="service"
-                defaultValue={params.service || ''}
-                className="form-input min-w-[200px]"
-              >
-                <option value="">All Services</option>
-                {SERVICE_CATEGORIES.map((service) => (
-                  <option key={service.id} value={service.id}>
-                    {service.label}
-                  </option>
-                ))}
-              </select>
-
-              {/* Contractor Type Filter (New) */}
-              <select
-                name="contractorType"
-                defaultValue={params.contractorType || ''}
-                className="form-input min-w-[200px]"
-              >
-                <option value="">All Contractor Types</option>
-                {Object.values(CONTRACTOR_TYPES).filter(t => t !== CONTRACTOR_TYPES.OTHER).map((typeId) => (
-                  <option key={typeId} value={typeId}>
-                    {CONTRACTOR_TYPE_CONFIG[typeId as ContractorType]?.label || typeId}
-                  </option>
-                ))}
-              </select>
-
-              {/* Region Filter */}
-              <select
-                name="region"
-                defaultValue={params.region || ''}
-                className="form-input min-w-[200px]"
-              >
-                <option value="">All Regions</option>
-                {US_STATES.map((state) => (
-                  <option key={state} value={state}>
-                    {state}
-                  </option>
-                ))}
-              </select>
-
-              <button type="submit" className="btn-primary py-3 px-6">
-                Search
-              </button>
-
-              {(params.search || params.service || params.contractorType || params.region) && (
-                <Link
-                  href="/contractors"
-                  className="text-body-sm font-medium text-text-secondary hover:text-navy-900"
+              {/* Mobile Filters - 2x2 grid */}
+              <div className="md:hidden grid grid-cols-2 gap-3">
+                <select
+                  name="service"
+                  defaultValue={params.service || ''}
+                  className="form-input text-sm"
                 >
-                  Clear filters
-                </Link>
+                  <option value="">All Services</option>
+                  {SERVICE_CATEGORIES.map((service) => (
+                    <option key={service.id} value={service.id}>
+                      {service.label}
+                    </option>
+                  ))}
+                </select>
+                <select
+                  name="contractorType"
+                  defaultValue={params.contractorType || ''}
+                  className="form-input text-sm"
+                >
+                  <option value="">All Types</option>
+                  {Object.values(CONTRACTOR_TYPES).filter(t => t !== CONTRACTOR_TYPES.OTHER).map((typeId) => (
+                    <option key={typeId} value={typeId}>
+                      {CONTRACTOR_TYPE_CONFIG[typeId as ContractorType]?.label || typeId}
+                    </option>
+                  ))}
+                </select>
+                <select
+                  name="region"
+                  defaultValue={params.region || ''}
+                  className="form-input text-sm"
+                >
+                  <option value="">All Regions</option>
+                  {US_STATES.map((state) => (
+                    <option key={state} value={state}>
+                      {state}
+                    </option>
+                  ))}
+                </select>
+                <button type="submit" className="btn-primary py-2 text-sm">
+                  Search
+                </button>
+              </div>
+
+              {/* Desktop Filters - inline row */}
+              <div className="hidden md:flex flex-wrap items-center gap-4">
+                <select
+                  name="service"
+                  defaultValue={params.service || ''}
+                  className="form-input min-w-[200px]"
+                >
+                  <option value="">All Services</option>
+                  {SERVICE_CATEGORIES.map((service) => (
+                    <option key={service.id} value={service.id}>
+                      {service.label}
+                    </option>
+                  ))}
+                </select>
+                <select
+                  name="contractorType"
+                  defaultValue={params.contractorType || ''}
+                  className="form-input min-w-[200px]"
+                >
+                  <option value="">All Contractor Types</option>
+                  {Object.values(CONTRACTOR_TYPES).filter(t => t !== CONTRACTOR_TYPES.OTHER).map((typeId) => (
+                    <option key={typeId} value={typeId}>
+                      {CONTRACTOR_TYPE_CONFIG[typeId as ContractorType]?.label || typeId}
+                    </option>
+                  ))}
+                </select>
+                <select
+                  name="region"
+                  defaultValue={params.region || ''}
+                  className="form-input min-w-[200px]"
+                >
+                  <option value="">All Regions</option>
+                  {US_STATES.map((state) => (
+                    <option key={state} value={state}>
+                      {state}
+                    </option>
+                  ))}
+                </select>
+                <button type="submit" className="btn-primary py-3 px-6">
+                  Search
+                </button>
+                {(params.search || params.service || params.contractorType || params.region) && (
+                  <Link
+                    href="/contractors"
+                    className="text-body-sm font-medium text-text-secondary hover:text-navy-900"
+                  >
+                    Clear filters
+                  </Link>
+                )}
+              </div>
+
+              {/* Mobile Clear - below grid */}
+              {(params.search || params.service || params.contractorType || params.region) && (
+                <div className="md:hidden text-center">
+                  <Link
+                    href="/contractors"
+                    className="text-body-sm font-medium text-text-secondary hover:text-navy-900"
+                  >
+                    Clear filters
+                  </Link>
+                </div>
               )}
             </form>
           </div>
