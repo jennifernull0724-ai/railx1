@@ -429,26 +429,20 @@ export default async function HomePage() {
                 <FeaturedListingPromoCard />
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {/* Elite Placement Promo Card - Left Position */}
-                <FeaturedListingPromoCard className="max-w-sm" />
-                
-                {/* Empty State Message */}
-                <div className="md:col-span-2 lg:col-span-3 text-center py-16 bg-white rounded-2xl border border-slate-100">
-                  <svg className="w-16 h-16 text-slate-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                  </svg>
-                  <h3 className="text-[20px] font-bold text-navy-900 mb-3">Be the First Seller</h3>
-                  <p className="text-[15px] text-slate-500 max-w-md mx-auto mb-6 leading-relaxed">
-                    No equipment has been listed yet. Be the first to showcase your rail equipment, materials, or services on The Rail Exchange marketplace.
-                  </p>
-                  <Link
-                    href="/listings/create"
-                    className="inline-flex items-center justify-center h-11 px-6 bg-rail-orange text-white text-[14px] font-semibold rounded-xl hover:bg-[#e55f15] transition-colors"
-                  >
-                    Create a Listing
-                  </Link>
-                </div>
+              <div className="text-center py-16 bg-white rounded-2xl border border-slate-100">
+                <svg className="w-16 h-16 text-slate-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                </svg>
+                <h3 className="text-[20px] font-bold text-navy-900 mb-3">No Listings Yet</h3>
+                <p className="text-[15px] text-slate-500 max-w-md mx-auto mb-6 leading-relaxed">
+                  Be the first to list rail equipment on The Rail Exchange.
+                </p>
+                <Link
+                  href="/listings/create"
+                  className="inline-flex items-center justify-center h-11 px-6 bg-rail-orange text-white text-[14px] font-semibold rounded-xl hover:bg-[#e55f15] transition-colors"
+                >
+                  List Equipment
+                </Link>
               </div>
             )}
           </div>

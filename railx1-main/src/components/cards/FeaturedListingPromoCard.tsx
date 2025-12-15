@@ -1,18 +1,15 @@
 /**
- * THE RAIL EXCHANGE™ — Featured Listing Promo Card
+ * THE RAIL EXCHANGE™ — Seller Tools Promo Card
  * 
- * A promotional card that looks like a real listing card but promotes
- * featured placement. Used on every marketplace page instead of fake data.
+ * A clearly-labeled platform tool card for seller placement options.
+ * Visually distinct from inventory listings.
  */
 
 'use client';
 
 import * as React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { cn } from '@/lib/utils';
-import { Badge } from '@/components/ui/badge';
-import { Card } from '@/components/ui/card';
 
 interface FeaturedListingPromoCardProps {
   className?: string;
@@ -22,79 +19,40 @@ export const FeaturedListingPromoCard: React.FC<FeaturedListingPromoCardProps> =
   className,
 }) => {
   return (
-    <Link href="/marketplace/featured-example">
-      <Card className={cn(
-        "group overflow-hidden rounded-xl border-2 border-dashed border-amber-400/40 bg-gradient-to-br from-amber-50 to-orange-50",
-        "hover:shadow-lg hover:border-amber-500 transition-all duration-300 cursor-pointer",
-        className
-      )}>
-        {/* Image Container */}
-        <div className="relative aspect-[4/3] overflow-hidden">
-          {/* Elite Badge */}
-          <div className="absolute top-3 left-3 z-10">
-            <Badge className="bg-amber-500 text-white border-0 shadow-lg">
-              👑 Elite Spot
-            </Badge>
-          </div>
-
-          {/* Elite Placement Image */}
-          <Image
-            src="/elite-placement.png"
-            alt="Elite Placement Example"
-            fill
-            className="object-cover group-hover:scale-105 transition-transform duration-300"
-          />
-
-          {/* Hover Overlay */}
-          <div className="absolute inset-0 bg-rail-orange/0 group-hover:bg-rail-orange/10 transition-colors" />
-        </div>
-
-        {/* Card Content */}
-        <div className="p-4">
-          {/* Title */}
-          <h3 className="font-semibold text-navy-900 text-lg mb-1 group-hover:text-amber-600 transition-colors">
-            Get Elite Placement
-          </h3>
-
-          {/* Price Area */}
-          <div className="flex items-baseline gap-2 mb-3">
-            <span className="text-xl font-bold text-amber-600">Maximum Visibility</span>
-          </div>
-
-          {/* Benefits List */}
-          <div className="space-y-1.5 mb-4">
-            <div className="flex items-center gap-2 text-sm text-text-secondary">
-              <svg className="w-4 h-4 text-emerald-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-              </svg>
-              <span>Top of category</span>
-            </div>
-            <div className="flex items-center gap-2 text-sm text-text-secondary">
-              <svg className="w-4 h-4 text-emerald-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-              </svg>
-              <span>Priority in search</span>
-            </div>
-            <div className="flex items-center gap-2 text-sm text-text-secondary">
-              <svg className="w-4 h-4 text-emerald-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-              </svg>
-              <span>More visibility</span>
-            </div>
-          </div>
-
-          {/* CTA */}
-          <div className="flex items-center justify-between">
-            <span className="text-sm font-medium text-amber-600 group-hover:underline">
-              Learn More →
-            </span>
-            <Badge variant="outline" className="border-amber-500/30 text-amber-600 text-xs">
-              Elite
-            </Badge>
-          </div>
-        </div>
-      </Card>
-    </Link>
+    <div className={cn(
+      "bg-slate-50 border border-slate-200 rounded-xl p-5",
+      className
+    )}>
+      {/* Seller Tools Label */}
+      <div className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-3">
+        Seller Tools
+      </div>
+      
+      {/* Icon */}
+      <div className="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center mb-3">
+        <svg className="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+        </svg>
+      </div>
+      
+      {/* Title */}
+      <h4 className="text-[14px] font-semibold text-navy-900 mb-1">
+        Elite Placement
+      </h4>
+      
+      {/* Description */}
+      <p className="text-[12px] text-slate-500 mb-3 leading-relaxed">
+        Boost your listing visibility with priority positioning.
+      </p>
+      
+      {/* CTA */}
+      <Link 
+        href="/dashboard/upgrade"
+        className="text-[12px] font-medium text-amber-600 hover:text-amber-700 hover:underline"
+      >
+        Learn more →
+      </Link>
+    </div>
   );
 };
 
