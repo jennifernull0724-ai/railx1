@@ -49,28 +49,31 @@ export default function WelcomeMessage({
     {
       id: 'browse',
       title: 'Browse the Marketplace',
-      description: 'Explore equipment, materials, and contractors',
+      description: 'Explore equipment, materials, and services',
       href: '/listings',
       icon: Package,
       completed: false,
+      showWhen: true, // Always show
     },
     {
       id: 'seller',
-      title: 'Want to Upgrade?',
-      description: 'Choose a plan to list your equipment',
+      title: 'Sell Equipment',
+      description: 'List your equipment for sale',
       href: '/dashboard/upgrade',
       icon: CreditCard,
       completed: hasSubscription,
+      showWhen: !hasSubscription, // Only show if not already a seller
     },
     {
       id: 'contractor',
-      title: 'Become a Contractor',
-      description: 'Offer your services to the rail industry',
+      title: 'Offer Services',
+      description: 'List your company in the service directory',
       href: '/contractors/onboard',
       icon: Wrench,
       completed: isContractor,
+      showWhen: !isContractor, // Only show if not already a contractor
     },
-  ];
+  ].filter(step => step.showWhen);
 
   return (
     <div className="bg-gradient-to-r from-navy-900 to-navy-800 rounded-2xl p-6 md:p-8 mb-8 relative overflow-hidden">

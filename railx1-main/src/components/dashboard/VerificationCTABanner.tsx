@@ -48,7 +48,7 @@ const BANNER_CONTENT: Record<VerificationRole, BannerContent> = {
     priceNote: 'One-time • Lifetime access',
     ctaText: 'Get Verified',
     ctaHref: '/dashboard/verification/buyer',
-    gradient: 'from-blue-500 to-blue-600',
+    gradient: 'from-slate-700 to-slate-800',
     Icon: ShoppingCart,
   },
   seller: {
@@ -58,7 +58,7 @@ const BANNER_CONTENT: Record<VerificationRole, BannerContent> = {
     priceNote: 'per year',
     ctaText: 'Get Verified to Sell',
     ctaHref: '/dashboard/verification/seller',
-    gradient: 'from-emerald-500 to-emerald-600',
+    gradient: 'from-slate-700 to-slate-800',
     Icon: Store,
   },
   contractor: {
@@ -68,7 +68,7 @@ const BANNER_CONTENT: Record<VerificationRole, BannerContent> = {
     priceNote: 'per year • Includes analytics',
     ctaText: 'Start Verification',
     ctaHref: '/dashboard/verification/contractor',
-    gradient: 'from-rail-orange to-amber-500',
+    gradient: 'from-slate-700 to-slate-800',
     Icon: Building2,
   },
 };

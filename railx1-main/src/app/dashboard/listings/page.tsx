@@ -41,10 +41,17 @@ interface Listing {
 }
 
 interface ListingsResponse {
-  listings: Listing[];
-  total: number;
-  pages: number;
-  page: number;
+  success: boolean;
+  data: {
+    listings: Listing[];
+    pagination: {
+      page: number;
+      limit: number;
+      total: number;
+      totalPages: number;
+      hasMore: boolean;
+    };
+  };
 }
 
 export default function MyListingsPage() {
@@ -80,10 +87,20 @@ export default function MyListingsPage() {
       const res = await fetch(`/api/listings?${params}`);
       if (!res.ok) throw new Error('Failed to fetch listings');
 
-      const data: ListingsResponse = await res.json();
-      setListings(data.listings);
-      setTotalPages(data.pages);
-      setTotal(data.total);
+      const response: ListingsResponse = await res.json();
+      
+      // Handle both old and new API response formats
+      if (response.data) {
+        setListings(response.data.listings || []);
+        setTotalPages(response.data.pagination?.totalPages || 1);
+        setTotal(response.data.pagination?.total || 0);
+      } else {
+        // Fallback for legacy format
+        const legacyData = response as unknown as { listings: Listing[]; pages: number; total: number };
+        setListings(legacyData.listings || []);
+        setTotalPages(legacyData.pages || 1);
+        setTotal(legacyData.total || 0);
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong');
     } finally {

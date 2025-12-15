@@ -203,7 +203,7 @@ function DashboardLayoutInner({ children }: DashboardLayoutProps) {
   };
 
   // Navigation sections - unified for all users matching required structure:
-  // /dashboard → Overview, Selling, Contractor, ISO, Account, Upgrade
+  // /dashboard → Overview, Selling, Services, ISO, Account, Upgrade
   const navigationSections: NavSection[] = [
     {
       title: "Overview",
@@ -224,16 +224,17 @@ function DashboardLayoutInner({ children }: DashboardLayoutProps) {
         { label: "Analytics", href: "/dashboard/analytics", icon: BarChart3, locked: analyticsLocked },
       ],
     },
-    {
-      title: "Contractor",
+    // Services section - only show if user has contractor intent OR is looking at contractor routes
+    ...(isContractor || pathname?.includes('/contractor') ? [{
+      title: "Services",
       icon: Wrench,
       items: [
         { label: "My Services", href: "/dashboard/contractor/services", icon: Wrench },
-        { label: "Contractor Profile", href: "/dashboard/contractor/profile", icon: User },
+        { label: "Service Profile", href: "/dashboard/contractor/profile", icon: User },
         { label: "Service Leads", href: "/dashboard/contractor/leads", icon: MessageSquare },
         { label: "Get Verified", href: "/dashboard/contractor/verify", icon: Shield },
       ],
-    },
+    }] : []),
     {
       title: "ISO (In Search Of)",
       icon: Search,
@@ -249,6 +250,8 @@ function DashboardLayoutInner({ children }: DashboardLayoutProps) {
         { label: "Settings", href: "/dashboard/settings", icon: Settings },
         { label: "Billing & Subscriptions", href: "/dashboard/billing", icon: CreditCard },
         { label: "Seller Verification", href: "/dashboard/verification/seller", icon: Shield },
+        // Show service provider onboarding link if not already a contractor
+        ...(!isContractor ? [{ label: "Offer Services", href: "/contractors/onboard", icon: Wrench }] : []),
       ],
     },
   ];

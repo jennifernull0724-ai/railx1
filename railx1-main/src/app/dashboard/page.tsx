@@ -109,14 +109,25 @@ async function getDashboardData(userId: string): Promise<{
       : null;
 
     // Determine user's primary role for verification banner
+    // Priority: contractor > seller > buyer
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const userObj = user as any;
+    
+    // Check if user has started contractor path
+    const hasContractorIntent = userObj?.isContractor || 
+                                userObj?.contractorTier === 'verified' ||
+                                userObj?.contractorTier === 'professional';
+    
+    // Check if user has started seller path (has tier or listings)
+    const hasSellerIntent = (user?.sellerTier && user.sellerTier !== 'buyer') ||
+                           userObj?.role === 'seller' ||
+                           stats.total > 0;
+    
+    // Default to 'buyer' only if no other intent detected
     const userRole: 'buyer' | 'seller' | 'contractor' = 
-      userObj?.isContractor || userObj?.contractorTier === 'verified' 
-        ? 'contractor' 
-        : userObj?.role === 'seller' 
-          ? 'seller' 
-          : 'buyer';
+      hasContractorIntent ? 'contractor' : 
+      hasSellerIntent ? 'seller' : 
+      'buyer';
 
     return {
       stats,

@@ -62,12 +62,11 @@ export default function FirstTimeSellerBanner({ userName }: FirstTimeSellerBanne
   }
 
   return (
-    <div className="bg-gradient-to-r from-rail-orange to-amber-500 rounded-2xl p-6 md:p-8 mb-8 relative overflow-hidden shadow-lg">
+    <div className="bg-gradient-to-r from-navy-900 to-navy-800 rounded-2xl p-6 md:p-8 mb-8 relative overflow-hidden shadow-lg">
       {/* Background decoration */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-12 -right-12 w-48 h-48 bg-white/10 rounded-full" />
-        <div className="absolute -bottom-8 -left-8 w-32 h-32 bg-white/10 rounded-full" />
-        <Sparkles className="absolute top-4 right-20 w-6 h-6 text-white/20" />
+        <div className="absolute -top-12 -right-12 w-48 h-48 bg-white/5 rounded-full" />
+        <div className="absolute -bottom-8 -left-8 w-32 h-32 bg-white/5 rounded-full" />
       </div>
 
       {/* Dismiss button */}
