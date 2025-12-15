@@ -1,3 +1,94 @@
+  // Admin override: verification status
+  const updateVerificationStatus = async (newStatus: string) => {
+    if (!user) return;
+    setActionLoading(true);
+    try {
+      const res = await fetch(`/api/admin/users/${userId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'updateVerification', sellerVerificationStatus: newStatus }),
+      });
+      if (!res.ok) throw new Error('Failed to update verification status');
+      const data = await res.json();
+      setUser(data.user);
+    } catch (err) {
+      console.error('Failed to update verification status:', err);
+    } finally {
+      setActionLoading(false);
+    }
+  };
+
+  // Admin override: entitlements
+  const updateEntitlement = async (entitlement: string, value: boolean) => {
+    if (!user) return;
+    setActionLoading(true);
+    try {
+      const res = await fetch(`/api/admin/users/${userId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'updateEntitlement', entitlement, value }),
+      });
+      if (!res.ok) throw new Error('Failed to update entitlement');
+      const data = await res.json();
+      setUser(data.user);
+    } catch (err) {
+      console.error('Failed to update entitlement:', err);
+    } finally {
+      setActionLoading(false);
+    }
+  };
+      {/* Admin Override Warning */}
+      <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4 mb-4 text-yellow-900 text-sm">
+        <strong>Admin changes bypass automated billing and verification flows.</strong><br />
+        Use with caution. These changes take effect immediately and only apply to this user.
+      </div>
+      {/* Admin Override: Verification Status */}
+      <div className="space-y-3">
+        <h3 className="font-semibold text-gray-900 flex items-center gap-2">
+          <Shield className="h-5 w-5 text-purple-600" />
+          Admin Override: Verification Status
+        </h3>
+        <select
+          value={user.sellerVerificationStatus || 'none'}
+          onChange={(e) => updateVerificationStatus(e.target.value)}
+          disabled={actionLoading}
+          className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:opacity-50"
+        >
+          <option value="none">Unverified</option>
+          <option value="pending-ai">Pending (AI)</option>
+          <option value="pending-admin">Pending (Admin)</option>
+          <option value="active">Approved</option>
+          <option value="revoked">Rejected</option>
+        </select>
+      </div>
+
+      {/* Admin Override: Manual Entitlement Grant */}
+      <div className="space-y-3">
+        <h3 className="font-semibold text-gray-900 flex items-center gap-2">
+          <Crown className="h-5 w-5 text-purple-600" />
+          Manual Entitlement Grant
+        </h3>
+        <div className="flex flex-col gap-2">
+          <label className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              checked={user.contractorTier === 'professional'}
+              onChange={e => updateEntitlement('professional', e.target.checked)}
+              disabled={actionLoading}
+            />
+            Professional Services
+          </label>
+          <label className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              checked={user.sellerProActive}
+              onChange={e => updateEntitlement('analytics', e.target.checked)}
+              disabled={actionLoading}
+            />
+            Analytics
+          </label>
+        </div>
+      </div>
 /**
 export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Admin User Detail Page

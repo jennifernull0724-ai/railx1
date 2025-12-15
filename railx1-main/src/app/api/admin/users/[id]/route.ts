@@ -75,7 +75,22 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
     await connectDB();
 
     const body = await request.json();
-    const { role, isActive, name } = body;
+    const { role, isActive, name, sellerVerificationStatus, action, entitlement, value } = body;
+    // Admin override: verification status
+    if (action === 'updateVerification' && sellerVerificationStatus) {
+      user.sellerVerificationStatus = sellerVerificationStatus;
+    }
+
+    // Admin override: entitlements
+    if (action === 'updateEntitlement' && entitlement) {
+      if (entitlement === 'professional') {
+        user.contractorTier = value ? 'professional' : 'none';
+        user.contractorSubscriptionStatus = value ? 'active' : null;
+      }
+      if (entitlement === 'analytics') {
+        user.sellerProActive = !!value;
+      }
+    }
 
     const user = await User.findById(id);
 
@@ -155,6 +170,10 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
         email: user.email,
         role: user.role,
         isActive: user.isActive,
+        sellerVerificationStatus: user.sellerVerificationStatus,
+        contractorTier: user.contractorTier,
+        contractorSubscriptionStatus: user.contractorSubscriptionStatus,
+        sellerProActive: user.sellerProActive,
       },
     });
   } catch (error) {
