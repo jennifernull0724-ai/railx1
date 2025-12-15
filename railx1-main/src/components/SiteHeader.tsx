@@ -42,7 +42,6 @@ interface SiteHeaderProps {
 const navLinks = [
   { href: '/listings', label: 'Marketplace' },
   { href: '/iso', label: 'Buyer Requests' },
-  { href: '/contractors', label: 'Contractors' },
   { href: '/how-it-works', label: 'How It Works' },
   { href: '/pricing', label: 'Pricing' },
 ];
