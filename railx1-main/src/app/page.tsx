@@ -460,15 +460,15 @@ export default async function HomePage() {
                   <svg className="w-3.5 h-3.5 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                   </svg>
-                  <span className="text-[12px] font-semibold text-emerald-700">Document-Reviewed Contractors</span>
+                  <span className="text-[12px] font-semibold text-emerald-700">Document-Reviewed Providers</span>
                 </div>
 
                 <h2 className="text-[32px] md:text-[40px] font-bold text-navy-900 leading-[1.15] tracking-tight mb-6">
-                  Find Rail Contractors
+                  Find Service Providers
                 </h2>
                 
                 <p className="text-[16px] md:text-[17px] text-slate-500 leading-relaxed mb-10">
-                  Connect with contractors who have submitted business documentation for review. 
+                  Connect with contractors and rail service companies who have submitted business documentation for review. 
                   Search by service type, region, and specialization to find partners for your rail project.
                 </p>
                 
@@ -477,13 +477,13 @@ export default async function HomePage() {
                     href="/contractors" 
                     className="inline-flex items-center justify-center h-12 px-7 bg-rail-orange text-white text-[15px] font-semibold rounded-xl shadow-sm hover:bg-[#e55f15] hover:shadow-md transition-all duration-200"
                   >
-                    Find Your Contractor
+                    Browse Directory
                   </Link>
                   <Link 
                     href="/dashboard/contractor/verify" 
                     className="inline-flex items-center justify-center h-12 px-7 bg-white border-2 border-navy-900 text-navy-900 text-[15px] font-semibold rounded-xl hover:bg-navy-900 hover:text-white transition-all duration-200"
                   >
-                    Create Contractor Profile
+                    Create Profile
                   </Link>
                 </div>
               </div>
@@ -729,12 +729,12 @@ export default async function HomePage() {
               </ul>
             </div>
 
-            {/* Contractors Links */}
+            {/* Service Providers Links */}
             <div className="flex flex-col gap-2 text-center md:text-left">
-              <h4 className="text-[13px] font-semibold text-white/90 uppercase tracking-wider mb-2">Contractors</h4>
+              <h4 className="text-[13px] font-semibold text-white/90 uppercase tracking-wider mb-2">Service Providers</h4>
               <ul className="space-y-3 md:space-y-2">
-                <li><Link href="/contractors" className="text-[14px] md:text-[13px] text-white/70 hover:text-white transition-colors leading-relaxed">Find Contractors</Link></li>
-                <li><Link href="/dashboard/contractor/verify" className="text-[14px] md:text-[13px] text-white/70 hover:text-white transition-colors leading-relaxed">Become a Contractor</Link></li>
+                <li><Link href="/contractors" className="text-[14px] md:text-[13px] text-white/70 hover:text-white transition-colors leading-relaxed">Browse Directory</Link></li>
+                <li><Link href="/dashboard/contractor/verify" className="text-[14px] md:text-[13px] text-white/70 hover:text-white transition-colors leading-relaxed">Create Profile</Link></li>
                 <li><Link href="/contractors?verified=true" className="text-[14px] md:text-[13px] text-white/70 hover:text-white transition-colors leading-relaxed">Verified Only</Link></li>
               </ul>
             </div>

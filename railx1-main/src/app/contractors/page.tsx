@@ -1,8 +1,8 @@
 /**
 export const dynamic = 'force-dynamic';
- * THE RAIL EXCHANGE™ — Contractor Directory
+ * THE RAIL EXCHANGE™ — Service Provider Directory
  * 
- * Browse and filter all rail industry contractors.
+ * Browse and filter all rail industry service providers.
  */
 
 import { Metadata } from 'next';
@@ -12,12 +12,11 @@ import connectDB from '@/lib/db';
 import ContractorProfile from '@/models/ContractorProfile';
 import { SERVICE_CATEGORIES, US_STATES } from '@/lib/constants';
 import { CONTRACTOR_TYPES, CONTRACTOR_TYPE_CONFIG, type ContractorType } from '@/config/contractor-types';
-import { FeaturedContractorPromoCard } from '@/components/cards';
 import ContractorsViewToggle from '@/components/contractor/ContractorsViewToggle';
 
 export const metadata: Metadata = {
-  title: 'Rail Contractors Directory | The Rail Exchange',
-  description: 'Find verified rail industry contractors. Browse track work, signaling, electrical, bridge construction, and more.',
+  title: 'Rail Service Providers Directory | The Rail Exchange',
+  description: 'Find verified rail industry service providers. Browse contractors, service companies, and specialists for track work, signaling, electrical, bridge construction, and more.',
 };
 
 interface SearchParams {
@@ -310,28 +309,22 @@ function EmptyState({ hasFilters }: { hasFilters: boolean }) {
     );
   }
 
-  // Show promo card when no contractors exist at all
+  // Show honest empty state when no contractors exist
   return (
-    <>
-      {/* Promo Card - First Position */}
-      <FeaturedContractorPromoCard />
-      
-      {/* Message Card */}
-      <div className="col-span-full md:col-span-1 lg:col-span-2 flex flex-col items-center justify-center py-12 px-6 bg-white rounded-2xl shadow-card border border-surface-border text-center">
-        <div className="w-16 h-16 bg-rail-orange/10 rounded-full flex items-center justify-center mb-4">
-          <svg className="w-8 h-8 text-rail-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-          </svg>
-        </div>
-        <h3 className="heading-md mb-2">Be the First Contractor</h3>
-        <p className="text-body-md text-text-secondary max-w-md mb-6">
-          No contractors have listed yet. Be the first to showcase your rail industry services on The Rail Exchange.
-        </p>
-        <Link href="/contractors/onboard" className="btn-primary">
-          List Your Business
-        </Link>
+    <div className="col-span-full flex flex-col items-center justify-center py-16 text-center">
+      <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mb-4">
+        <svg className="w-8 h-8 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+        </svg>
       </div>
-    </>
+      <h3 className="heading-md mb-2">No Service Providers Yet</h3>
+      <p className="text-body-md text-text-secondary max-w-md mb-6">
+        Contractors and rail service companies can create a profile to be listed here.
+      </p>
+      <Link href="/contractors/onboard" className="btn-primary">
+        Create Profile
+      </Link>
+    </div>
   );
 }
 
@@ -608,13 +601,13 @@ export default async function ContractorsPage({
         {/* CTA */}
         <section className="bg-white border-t border-surface-border py-16">
           <div className="container-rail text-center">
-            <h2 className="heading-xl mb-4">Are you a rail contractor?</h2>
+            <h2 className="heading-xl mb-4">Are you a rail service provider?</h2>
             <p className="text-body-lg text-text-secondary mb-8 max-w-2xl mx-auto">
-              Join The Rail Exchange and connect with buyers looking for your services.
+              Contractors and rail service companies can join The Rail Exchange to connect with buyers.
               Get verified to stand out from the competition.
             </p>
             <Link href="/contractors/onboard" className="btn-primary btn-lg">
-              List Your Business
+              Create Profile
             </Link>
           </div>
         </section>

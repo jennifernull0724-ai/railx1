@@ -324,42 +324,31 @@ export default function HowItWorksPage() {
         </div>
       </section>
 
-      {/* Map Search Section */}
+      {/* Location-Based Search Section */}
       <section className="py-20 bg-white">
         <div className="container-rail">
           <div className="max-w-6xl mx-auto">
-            <div className="grid md:grid-cols-2 gap-12 items-center">
-              <div>
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
-                    <MapPin className="w-6 h-6 text-purple-600" />
-                  </div>
-                  <h2 className="text-3xl font-bold text-navy-900">Map-Based Search</h2>
-                </div>
-                <p className="text-lg text-slate-600 mb-6">
-                  Find equipment and contractors near you with our integrated Google Maps search. 
-                  Filter by distance, see exact locations, and connect with local sellers.
-                </p>
-                <ul className="space-y-3">
-                  {[
-                    'Search by city, state, or zip code',
-                    'Filter results by radius (25-500 miles)',
-                    'See listings on an interactive map',
-                    'Find local contractors for your projects',
-                  ].map((feature, idx) => (
-                    <li key={idx} className="flex items-center gap-3 text-slate-700">
-                      <CheckCircle className="w-5 h-5 text-purple-600" />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
+                <MapPin className="w-6 h-6 text-purple-600" />
               </div>
-              <div className="bg-slate-100 rounded-2xl aspect-video flex items-center justify-center">
-                <div className="text-center">
-                  <MapPin className="w-16 h-16 text-slate-400 mx-auto mb-4" />
-                  <p className="text-slate-500">Interactive Map Search</p>
+              <h2 className="text-3xl font-bold text-navy-900">Location-Based Search</h2>
+            </div>
+            <p className="text-lg text-slate-600 mb-8 max-w-2xl">
+              Find equipment and service providers near you. Filter by state, region, or search nationwide.
+            </p>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {[
+                { label: 'Search by state or region', icon: MapPin },
+                { label: 'Filter by distance', icon: MapPin },
+                { label: 'Find local service providers', icon: MapPin },
+                { label: 'Nationwide coverage', icon: MapPin },
+              ].map((feature, idx) => (
+                <div key={idx} className="bg-slate-50 rounded-xl p-4 flex items-center gap-3">
+                  <CheckCircle className="w-5 h-5 text-purple-600 flex-shrink-0" />
+                  <span className="text-sm text-slate-700">{feature.label}</span>
                 </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>
