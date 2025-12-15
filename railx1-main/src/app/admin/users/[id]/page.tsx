@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Admin User Detail Page
  * 
  * View and manage individual user details.

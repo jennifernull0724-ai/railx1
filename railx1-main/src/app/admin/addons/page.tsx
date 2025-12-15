@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Admin Add-Ons Management
  * 
  * View and manage add-on purchases.

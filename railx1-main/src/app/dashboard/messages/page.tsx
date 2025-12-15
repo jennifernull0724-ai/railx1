@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Messages Inbox
  * 
  * View and manage inquiries and conversations with buyers/sellers.

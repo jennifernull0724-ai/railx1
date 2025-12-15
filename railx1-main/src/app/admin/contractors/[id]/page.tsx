@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Admin Contractor Detail Page
  * 
  * View and manage individual contractor profiles.

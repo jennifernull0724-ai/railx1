@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Public Seller Profile Page
  * 
  * Purpose: Inventory visibility.

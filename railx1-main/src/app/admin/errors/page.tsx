@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Admin Error Logs
  * 
  * View and analyze application errors and exceptions.

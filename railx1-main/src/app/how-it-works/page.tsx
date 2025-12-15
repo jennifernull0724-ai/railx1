@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — How It Works Page
  * 
  * Step-by-step guide for buyers, sellers, and contractors.

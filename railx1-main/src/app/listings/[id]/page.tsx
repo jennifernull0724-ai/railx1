@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Listing Detail Page
  * 
  * Displays a single listing with all details, images, and contact options.

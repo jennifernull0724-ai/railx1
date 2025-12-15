@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Dashboard Overview
  * 
  * Main dashboard with stats, recent activity, and quick actions.

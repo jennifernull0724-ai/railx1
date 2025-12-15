@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Admin Promo Codes Management
  * 
  * View and test promo codes, track usage, and validate Stripe coupons.

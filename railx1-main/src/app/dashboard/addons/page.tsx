@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — My Add-Ons Page
  * 
  * Dashboard page to view purchased add-ons and assign them to listings.

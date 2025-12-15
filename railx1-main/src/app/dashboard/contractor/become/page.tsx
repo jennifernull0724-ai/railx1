@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Become a Contractor Page
  * 
  * Allows sellers to opt-in to contractor capabilities.

@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Account Settings
  * ======================================
  * BATCH 15 REQUIREMENTS:

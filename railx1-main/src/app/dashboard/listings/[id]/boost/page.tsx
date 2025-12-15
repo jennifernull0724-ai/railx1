@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Boost Listing Page
  * 
  * Quick upsell page for sellers to purchase Premium or Elite placement

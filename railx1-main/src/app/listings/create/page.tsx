@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Create Listing Page
  * 
  * Multi-step form for creating equipment listings.

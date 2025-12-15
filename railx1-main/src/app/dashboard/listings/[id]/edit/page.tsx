@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Edit Listing Page
  * 
  * Full-featured listing editor with image management,

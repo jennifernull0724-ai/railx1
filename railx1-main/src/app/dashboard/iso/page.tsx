@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — ISO (In Search Of) Request Dashboard
  * 
  * Lightweight "wanted" posts for users looking for equipment,

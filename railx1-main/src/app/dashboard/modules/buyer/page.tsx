@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Buyer Dashboard Overview
  * 
  * Primary dashboard view for buyers. Shows saved searches, watchlist, and recent activity.

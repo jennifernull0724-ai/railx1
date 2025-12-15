@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Analytics Dashboard
  * 
  * Comprehensive analytics for sellers to track performance,

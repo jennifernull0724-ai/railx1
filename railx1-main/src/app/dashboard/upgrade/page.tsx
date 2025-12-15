@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Upgrade / Cart Page
  * 
  * Cart-based checkout flow for sellers to upgrade their subscription

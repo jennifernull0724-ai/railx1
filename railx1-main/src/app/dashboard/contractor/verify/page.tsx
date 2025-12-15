@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Get Verified (Upsell Page)
  * 
  * This is the MARKETING page explaining why contractors should get verified.

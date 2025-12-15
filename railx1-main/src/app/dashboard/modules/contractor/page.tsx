@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Contractor Dashboard Overview
  * 
  * Primary dashboard view for contractors. Shows profile, leads, and verification status.

@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Contractor Verification Payment Page
  * 
  * Payment gate for approved contractor verification.

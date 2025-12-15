@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Reset Password Page
  * 
  * Allows users to set a new password using their reset token.

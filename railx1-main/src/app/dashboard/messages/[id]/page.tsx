@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Conversation Thread
  * 
  * View and reply to a specific inquiry conversation.

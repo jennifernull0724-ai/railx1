@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Admin System Metrics
  * 
  * Monitor platform health, performance metrics, and system status.

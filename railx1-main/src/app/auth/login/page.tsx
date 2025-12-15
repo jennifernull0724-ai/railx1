@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Login Page
  * =================================
  * BATCH 13 REQUIREMENTS:

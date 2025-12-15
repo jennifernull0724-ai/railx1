@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Admin Dashboard Overview
  * 
  * Main admin dashboard with key metrics and quick actions.

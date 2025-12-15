@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Marketplace Landing Page
  * 
  * Main marketplace entry point with category tiles and featured listings.

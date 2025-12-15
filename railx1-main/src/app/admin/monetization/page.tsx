@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Admin Monetization Reference
  * 
  * Read-only reference for pricing tiers and add-ons.

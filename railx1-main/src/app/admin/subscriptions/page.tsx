@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Admin Subscription Reports
  * 
  * View subscription analytics, tier breakdowns, and user upgrade patterns.

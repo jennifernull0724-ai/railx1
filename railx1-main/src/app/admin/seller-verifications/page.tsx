@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Admin Seller Verification Report
  * 
  * Admin page to view and manage seller verifications.

@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Contractor Onboarding
  * 
  * Multi-step contractor registration with photo uploads.

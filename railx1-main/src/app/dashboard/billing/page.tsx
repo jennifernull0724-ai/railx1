@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Billing Dashboard
  * 
  * Manage subscriptions, view billing history, access Stripe portal.

@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Admin Stripe Monitoring
  * 
  * Monitor Stripe webhooks, payments, subscriptions, and test promo codes.

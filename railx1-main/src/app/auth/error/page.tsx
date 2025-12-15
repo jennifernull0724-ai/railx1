@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Auth Error Page
  * 
  * Displays user-friendly error messages for authentication failures.

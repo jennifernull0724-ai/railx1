@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Marketplace Category Page
  * 
  * Dynamic category page showing listings in a specific category.

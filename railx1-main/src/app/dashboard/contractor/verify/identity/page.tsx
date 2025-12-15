@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Verification Step 1: Identity
  * 
  * Identity verification uploads ONLY.

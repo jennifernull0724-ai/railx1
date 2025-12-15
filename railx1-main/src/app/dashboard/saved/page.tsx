@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Saved Items Page
  * 
  * Shows listings and searches the user has saved/watchlisted.

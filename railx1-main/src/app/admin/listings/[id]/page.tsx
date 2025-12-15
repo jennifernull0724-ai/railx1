@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Admin Listing Detail Page
  * 
  * View and manage individual listings with approval workflow.

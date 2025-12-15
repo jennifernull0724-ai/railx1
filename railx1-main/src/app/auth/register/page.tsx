@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Registration Page
  * ========================================
  * REGISTRATION & VERIFICATION UX (AI-ASSISTED)

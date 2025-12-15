@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Contractor Profile Page
  * 
  * Build your public contractor profile with structured contractor types.

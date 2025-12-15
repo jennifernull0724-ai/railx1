@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Admin Contractor Verification Review
  * 
  * Admin page to review and approve/reject contractor verifications.

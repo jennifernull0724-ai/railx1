@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Admin ISO Requests Page
  * 
  * Administrative oversight for ISO (In Search Of) requests.

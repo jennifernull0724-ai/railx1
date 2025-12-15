@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Verification Step 5: Additional Documents
  * 
  * Additional document uploads ONLY.

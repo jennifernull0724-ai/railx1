@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Public Buyer Profile Page
  * 
  * Purpose: Trust + reviews only.

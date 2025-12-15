@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Contractor Business Profile Page
  * 
  * Allows contractors to view and edit their business profile.

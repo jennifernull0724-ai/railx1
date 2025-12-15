@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Public Company Profile Page
  * 
  * OPUS EXECUTION: Profile Pages (Company Facts)

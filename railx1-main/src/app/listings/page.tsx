@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Listings Directory
  * 
  * Browse and search all listings with advanced filtering.

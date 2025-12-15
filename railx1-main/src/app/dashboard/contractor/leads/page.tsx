@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Contractor Leads Page
  * 
  * Shows leads/inquiries received by contractors.

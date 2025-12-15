@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * Dashboard Notifications - Stub page to prevent 404 prefetch crashes
  */
 'use client';

@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — My Listings Dashboard
  * 
  * View, manage, and track all user listings with

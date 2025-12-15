@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Admin AI Analytics
  * 
  * Monitor AI chat usage, costs, and performance metrics.

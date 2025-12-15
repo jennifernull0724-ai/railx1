@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Verification Step 2: Insurance
  * 
  * Insurance document uploads ONLY.

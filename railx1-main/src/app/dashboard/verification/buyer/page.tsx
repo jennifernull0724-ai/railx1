@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Buyer Verification Page
  * 
  * /dashboard/verification/buyer

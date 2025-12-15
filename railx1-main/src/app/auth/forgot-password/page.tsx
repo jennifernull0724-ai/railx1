@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Forgot Password Page
  * 
  * Premium password reset request experience.

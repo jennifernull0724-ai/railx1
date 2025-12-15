@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Create ISO Request (Public Page)
  * 
  * Public page for creating "In Search Of" requests.

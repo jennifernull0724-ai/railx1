@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * Dashboard Watchlist - Redirect to Saved page
  */
 'use client';

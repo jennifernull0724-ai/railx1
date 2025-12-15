@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Verification Step 6: Review & Submit
  * 
  * Final review of all uploaded documents before submission.

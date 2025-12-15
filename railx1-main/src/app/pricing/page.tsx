@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Pricing Page
  * 
  * Premium pricing page with monthly/yearly toggle.

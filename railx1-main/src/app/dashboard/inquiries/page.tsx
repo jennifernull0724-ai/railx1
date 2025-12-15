@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — My Inquiries Page
  * 
  * Shows inquiries the user has sent and received.

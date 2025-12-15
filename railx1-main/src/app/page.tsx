@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Premium Homepage
  * 
  * 10/10 Quality Benchmark - AutoTrader-grade design

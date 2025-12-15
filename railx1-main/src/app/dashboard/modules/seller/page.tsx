@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Seller Dashboard Overview
  * 
  * Primary dashboard view for sellers. Shows listings, analytics, and inquiries.

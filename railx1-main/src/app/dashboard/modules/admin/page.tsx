@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Admin Dashboard Overview
  * 
  * Enterprise control panel for platform administrators.

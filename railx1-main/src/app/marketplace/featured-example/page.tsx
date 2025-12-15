@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Featured Listing Example Page
  * 
  * Showcase page demonstrating how featured listings appear.

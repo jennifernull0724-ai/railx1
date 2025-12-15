@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Contractor Profile Page
  * ============================================
  * PUBLIC PROFILE PAGES REQUIREMENTS:

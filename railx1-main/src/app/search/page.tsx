@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Search Page
  * 
  * Unified search experience for listings and contractors.

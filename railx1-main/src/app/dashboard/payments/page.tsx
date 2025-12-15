@@ -1,4 +1,5 @@
 /**
+export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — PayPal Account Linking Page
  * 
  * IMPORTANT LEGAL DISCLAIMER:
