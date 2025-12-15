@@ -12,6 +12,7 @@
 
 import { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import bcrypt from 'bcryptjs';
 import connectDB from '@/lib/db';
 import User from '@/models/User';
 import LoginAttemptLog from '@/models/LoginAttemptLog';
@@ -93,8 +94,7 @@ export const authOptions: NextAuthOptions = {
             return null;
           }
 
-          // Direct bcrypt compare
-          const bcrypt = await import('bcryptjs');
+          // Use static bcrypt import (not dynamic - dynamic import has .default issues)
           const isValid = await bcrypt.compare(credentials.password, user.password);
           console.log('AUTH: Password valid:', isValid);
 
