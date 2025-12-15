@@ -1,10 +1,11 @@
 /**
  * DEBUG ENDPOINT - Remove after fixing auth issue
- * Tests the exact auth flow to identify where it's failing
+ * Tests the EXACT auth flow from authorize() to identify where it's failing
  */
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/db';
 import User from '@/models/User';
+import bcrypt from 'bcryptjs';
 
 export async function POST(request: NextRequest) {
   try {
@@ -13,6 +14,8 @@ export async function POST(request: NextRequest) {
     const results: Record<string, unknown> = {
       step: 'start',
       timestamp: new Date().toISOString(),
+      inputEmail: email,
+      normalizedEmail: email?.toLowerCase(),
     };
     
     // Step 1: Connect to DB
@@ -20,55 +23,83 @@ export async function POST(request: NextRequest) {
     await connectDB();
     results.dbConnected = true;
     
-    // Step 2: Find user by email
-    results.step = 'findingUser';
-    const user = await User.findByEmail(email);
-    results.userFound = !!user;
+    // Step 2: Find user EXACTLY like authorize() does - with .lean()
+    results.step = 'findingUser_lean';
+    const userLean = await User.findOne({ email: email.toLowerCase() })
+      .select('+password')
+      .lean();
+    results.userLeanFound = !!userLean;
     
-    if (!user) {
-      return NextResponse.json({
-        success: false,
-        error: 'User not found',
-        results,
-      });
+    if (userLean) {
+      results.userLean = {
+        id: userLean._id?.toString(),
+        email: userLean.email,
+        isActive: userLean.isActive,
+        isAdmin: userLean.isAdmin,
+        role: userLean.role,
+        hasPassword: !!userLean.password,
+        passwordLength: userLean.password?.length || 0,
+        passwordPrefix: userLean.password?.substring(0, 7) || 'none',
+      };
     }
     
-    results.userId = user._id.toString();
-    results.userEmail = user.email;
-    results.isActive = user.isActive;
-    results.isAdmin = user.isAdmin;
-    results.role = user.role;
-    results.hasPassword = !!user.password;
-    results.passwordLength = user.password ? user.password.length : 0;
-    results.passwordPrefix = user.password ? user.password.substring(0, 7) : 'none';
+    // Step 3: Also test without .lean() for comparison
+    results.step = 'findingUser_noLean';
+    const userDoc = await User.findOne({ email: email.toLowerCase() })
+      .select('+password');
+    results.userDocFound = !!userDoc;
     
-    // Step 3: Check if isActive
-    if (!user.isActive) {
-      return NextResponse.json({
-        success: false,
-        error: 'User is not active',
-        results,
-      });
+    if (userDoc) {
+      results.userDoc = {
+        id: userDoc._id?.toString(),
+        email: userDoc.email,
+        isActive: userDoc.isActive,
+        isAdmin: userDoc.isAdmin,
+        role: userDoc.role,
+        hasPassword: !!userDoc.password,
+        passwordLength: userDoc.password?.length || 0,
+      };
     }
     
-    // Step 4: Compare password
-    results.step = 'comparingPassword';
-    const isValid = await user.comparePassword(password);
-    results.passwordValid = isValid;
-    
-    if (!isValid) {
-      return NextResponse.json({
-        success: false,
-        error: 'Password invalid',
-        results,
-      });
+    // Step 4: Test bcrypt comparison BOTH ways
+    if (userLean?.password && password) {
+      results.step = 'bcryptCompare';
+      const isValidDirect = await bcrypt.compare(password, userLean.password);
+      results.bcryptDirectValid = isValidDirect;
     }
     
-    // Success!
+    if (userDoc?.comparePassword) {
+      results.step = 'comparePassword';
+      const isValidMethod = await userDoc.comparePassword(password);
+      results.comparePasswordValid = isValidMethod;
+    }
+    
+    // Step 5: Check what authorize() would return
+    results.step = 'simulateAuthorize';
+    if (!userLean) {
+      results.authorizeWouldReturn = 'null (user not found)';
+    } else if (!userLean.isActive) {
+      results.authorizeWouldReturn = 'null (user inactive)';
+    } else if (!userLean.password) {
+      results.authorizeWouldReturn = 'null (no password)';
+    } else {
+      const isValid = await bcrypt.compare(password, userLean.password);
+      if (!isValid) {
+        results.authorizeWouldReturn = 'null (password invalid)';
+      } else {
+        results.authorizeWouldReturn = 'SUCCESS - user object';
+        results.wouldReturnUser = {
+          id: userLean._id?.toString(),
+          email: userLean.email,
+          name: userLean.name || 'User',
+          isAdmin: userLean.isAdmin === true || userLean.role === 'admin',
+        };
+      }
+    }
+    
     results.step = 'complete';
     return NextResponse.json({
-      success: true,
-      message: 'Auth flow would succeed',
+      success: results.authorizeWouldReturn === 'SUCCESS - user object',
       results,
     });
     
