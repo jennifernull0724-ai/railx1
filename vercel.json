@@ -1,0 +1,6 @@
+{
+  "buildCommand": "cd railx1-main && npm run build",
+  "outputDirectory": "railx1-main/.next",
+  "installCommand": "cd railx1-main && npm install",
+  "framework": "nextjs"
+}
