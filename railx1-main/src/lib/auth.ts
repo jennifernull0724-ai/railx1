@@ -37,6 +37,9 @@ async function logFailedAttempt(
 }
 
 export const authOptions: NextAuthOptions = {
+  // CRITICAL: Explicit secret for JWT signing (fixes 401 on credentials callback)
+  secret: process.env.NEXTAUTH_SECRET,
+  
   providers: [
     CredentialsProvider({
       id: 'credentials',
