@@ -152,43 +152,63 @@ export default function AdminUserEditClient({ userId }: { userId: string }) {
     }
   };
 
-  // Admin override: verification status
-  const updateVerificationStatus = async (newStatus: string) => {
-    if (!user) return;
-    setActionLoading(true);
-    try {
-      const res = await fetch(`/api/admin/users/${userId}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "updateVerification", sellerVerificationStatus: newStatus }),
-      });
-      if (!res.ok) throw new Error("Failed to update verification status");
-      const data = await res.json();
-      setUser(data.user);
-    } catch (err) {
-      console.error("Failed to update verification status:", err);
-    } finally {
-      setActionLoading(false);
-    }
-  };
+  // Admin override local state
+  const [pendingVerificationStatus, setPendingVerificationStatus] = useState<string | undefined>(undefined);
+  const [pendingProfessional, setPendingProfessional] = useState<boolean | undefined>(undefined);
+  const [pendingAnalytics, setPendingAnalytics] = useState<boolean | undefined>(undefined);
+  const [saveSuccess, setSaveSuccess] = useState(false);
 
-  // Admin override: entitlements
-  const updateEntitlement = async (entitlement: string, value: boolean) => {
+  // Initialize local state from user when loaded
+  useEffect(() => {
+    if (user) {
+      setPendingVerificationStatus(user.sellerVerificationStatus || 'none');
+      setPendingProfessional(user.contractorTier === 'professional');
+      setPendingAnalytics(!!user.sellerProActive);
+    }
+  }, [user]);
+
+  // Save Admin Overrides handler
+  const handleSaveAdminOverrides = async () => {
     if (!user) return;
     setActionLoading(true);
+    setSaveSuccess(false);
     try {
-      const res = await fetch(`/api/admin/users/${userId}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "updateEntitlement", entitlement, value }),
-      });
-      if (!res.ok) throw new Error("Failed to update entitlement");
-      const data = await res.json();
-      setUser(data.user);
+      // Save verification status if changed
+      if (pendingVerificationStatus !== undefined && pendingVerificationStatus !== user.sellerVerificationStatus) {
+        await fetch(`/api/admin/users/${userId}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ action: "updateVerification", sellerVerificationStatus: pendingVerificationStatus }),
+        });
+      }
+      // Save Professional Services entitlement if changed
+      if (pendingProfessional !== undefined && (pendingProfessional !== (user.contractorTier === 'professional'))) {
+        await fetch(`/api/admin/users/${userId}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ action: "updateEntitlement", entitlement: "professional", value: pendingProfessional }),
+        });
+      }
+      // Save Analytics entitlement if changed
+      if (pendingAnalytics !== undefined && (pendingAnalytics !== !!user.sellerProActive)) {
+        await fetch(`/api/admin/users/${userId}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ action: "updateEntitlement", entitlement: "analytics", value: pendingAnalytics }),
+        });
+      }
+      // Refresh user state
+      const res = await fetch(`/api/admin/users/${userId}`);
+      if (res.ok) {
+        const data = await res.json();
+        setUser(data.user);
+        setSaveSuccess(true);
+      }
     } catch (err) {
-      console.error("Failed to update entitlement:", err);
+      console.error("Failed to save admin overrides:", err);
     } finally {
       setActionLoading(false);
+      setTimeout(() => setSaveSuccess(false), 2000);
     }
   };
 
@@ -421,8 +441,8 @@ export default function AdminUserEditClient({ userId }: { userId: string }) {
           Admin Override: Verification Status
         </h3>
         <select
-          value={user.sellerVerificationStatus || "none"}
-          onChange={(e) => updateVerificationStatus(e.target.value)}
+          value={pendingVerificationStatus || "none"}
+          onChange={(e) => setPendingVerificationStatus(e.target.value)}
           disabled={actionLoading}
           className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:opacity-50"
         >
@@ -443,8 +463,8 @@ export default function AdminUserEditClient({ userId }: { userId: string }) {
           <label className="flex items-center gap-2">
             <input
               type="checkbox"
-              checked={user.contractorTier === "professional"}
-              onChange={e => updateEntitlement("professional", e.target.checked)}
+              checked={!!pendingProfessional}
+              onChange={e => setPendingProfessional(e.target.checked)}
               disabled={actionLoading}
             />
             Professional Services
@@ -452,13 +472,26 @@ export default function AdminUserEditClient({ userId }: { userId: string }) {
           <label className="flex items-center gap-2">
             <input
               type="checkbox"
-              checked={user.sellerProActive}
-              onChange={e => updateEntitlement("analytics", e.target.checked)}
+              checked={!!pendingAnalytics}
+              onChange={e => setPendingAnalytics(e.target.checked)}
               disabled={actionLoading}
             />
             Analytics
           </label>
         </div>
+      </div>
+      {/* Save Admin Overrides Button */}
+      <div className="mt-4 flex items-center gap-4">
+        <button
+          onClick={handleSaveAdminOverrides}
+          disabled={actionLoading}
+          className="px-6 py-2 bg-purple-700 text-white rounded-lg font-semibold shadow-sm hover:bg-purple-800 transition-colors disabled:opacity-50"
+        >
+          {actionLoading ? 'Saving...' : 'Save Admin Overrides'}
+        </button>
+        {saveSuccess && (
+          <span className="text-green-700 font-medium">Saved!</span>
+        )}
       </div>
       {/* User Listings */}
       {listings.length > 0 && (
