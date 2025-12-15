@@ -300,7 +300,7 @@ export default async function HomePage() {
                   Contractors
                 </h3>
                 <p className="text-[13px] text-slate-500 text-center leading-snug mb-3">
-                  Document-Reviewed • Insured • Nationwide
+                  Document-Reviewed • Insurance Reviewed • Nationwide
                 </p>
                 <div className="text-center">
                   <span className="inline-flex items-center px-2.5 py-1 bg-emerald-100 group-hover:bg-emerald-200 text-emerald-700 text-[11px] font-medium rounded-full transition-colors duration-200">
@@ -486,10 +486,10 @@ export default async function HomePage() {
                     Find Your Contractor
                   </Link>
                   <Link 
-                    href="/dashboard/contractor/profile" 
+                    href="/dashboard/contractor/verify" 
                     className="inline-flex items-center justify-center h-12 px-7 bg-white border-2 border-navy-900 text-navy-900 text-[15px] font-semibold rounded-xl hover:bg-navy-900 hover:text-white transition-all duration-200"
                   >
-                    Join as Contractor — Free
+                    Create Contractor Profile
                   </Link>
                 </div>
               </div>
@@ -580,7 +580,7 @@ export default async function HomePage() {
                   </svg>
                 </summary>
                 <div className="px-5 pb-5 text-[14px] text-slate-600 leading-relaxed">
-                  Listing equipment on The Rail Exchange is completely free. You can create unlimited listings at no cost. Optional premium add-ons like Featured Placement ($25/30 days), Premium Placement ($50/30 days), and Elite Placement ($99/30 days) are available to boost visibility.
+                  Creating an account is free. Listings require seller verification ($29/year) to publish. Elite Placement ($99/30 days) is available to boost visibility.
                 </div>
               </details>
 
@@ -633,7 +633,7 @@ export default async function HomePage() {
                   </svg>
                 </summary>
                 <div className="px-5 pb-5 text-[14px] text-slate-600 leading-relaxed">
-                  Yes! Create a free contractor profile to showcase your services—track installation, welding, inspection, signaling, and more. Verified contractors with complete profiles receive project inquiries directly through the platform.
+                  Yes! Create a contractor profile to showcase your services—track installation, welding, inspection, signaling, and more. Directory visibility requires Professional Access ($2,500/year). Verified contractors receive project inquiries directly through the platform.
                 </div>
               </details>
 
@@ -673,7 +673,7 @@ export default async function HomePage() {
               Ready to Buy or Sell Rail Equipment?
             </h2>
             <p className="text-[16px] md:text-[17px] text-slate-500 mb-10 max-w-xl mx-auto leading-relaxed">
-              List your equipment for free. Connect with buyers and sellers nationwide.
+              Create listings for free — verify to publish. Connect with buyers and sellers nationwide.
               Join the dedicated marketplace for rail professionals.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -740,7 +740,7 @@ export default async function HomePage() {
               <h4 className="text-[13px] font-semibold text-white/90 uppercase tracking-wider mb-2">Contractors</h4>
               <ul className="space-y-3 md:space-y-2">
                 <li><Link href="/contractors" className="text-[14px] md:text-[13px] text-white/70 hover:text-white transition-colors leading-relaxed">Find Contractors</Link></li>
-                <li><Link href="/dashboard/contractor/profile" className="text-[14px] md:text-[13px] text-white/70 hover:text-white transition-colors leading-relaxed">Join as Contractor</Link></li>
+                <li><Link href="/dashboard/contractor/verify" className="text-[14px] md:text-[13px] text-white/70 hover:text-white transition-colors leading-relaxed">Become a Contractor</Link></li>
                 <li><Link href="/contractors?verified=true" className="text-[14px] md:text-[13px] text-white/70 hover:text-white transition-colors leading-relaxed">Verified Only</Link></li>
               </ul>
             </div>

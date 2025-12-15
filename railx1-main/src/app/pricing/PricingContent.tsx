@@ -175,7 +175,11 @@ export default function PricingContent() {
           <div className="container-rail">
             {/* Seller Plans */}
             {activeTab === 'seller' && (
-              <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+              <div className="max-w-5xl mx-auto">
+                <p className="text-center text-sm text-text-secondary mb-6">
+                  Seller verification ($29/year) is required to publish listings and is separate from optional subscription tiers.
+                </p>
+                <div className="grid md:grid-cols-3 gap-6">
                 {sellerTiers.map((tier) => {
                   const monthlyPrice = getPrice(tier);
                   const savings = getSavings(tier);
@@ -327,6 +331,7 @@ export default function PricingContent() {
                         Get Annual Plan
                       </Link>
                     )}
+                    <p className="text-xs text-center text-green-200 mt-2">Plan activates after account verification</p>
                   </div>
 
                   {/* Installment Option */}
@@ -372,6 +377,7 @@ export default function PricingContent() {
                         Get Installment Plan
                       </Link>
                     )}
+                    <p className="text-xs text-center text-text-tertiary mt-2">Plan activates after account verification</p>
                   </div>
                 </div>
                 <p className="text-xs text-center text-text-secondary mt-4">
@@ -383,6 +389,9 @@ export default function PricingContent() {
             {/* Add-ons - Top 3 only + See All */}
             {activeTab === 'addons' && (
               <div className="max-w-4xl mx-auto">
+                <p className="text-center text-sm text-text-secondary mb-6">
+                  Elite is the only placement tier available. AI Enhancement and Spec Sheet are one-time purchases.
+                </p>
                 <div className="grid md:grid-cols-3 gap-6 mb-8">
                   {top3Addons.map((addon) => {
                     const Icon = addon.icon;

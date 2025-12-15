@@ -197,6 +197,7 @@ export default function GetVerifiedPage() {
             >
               Get Annual Plan
             </Link>
+            <p className="text-xs text-center text-blue-200 mt-2">Plan activates after document verification</p>
           </div>
 
           {/* Installment */}
@@ -213,6 +214,7 @@ export default function GetVerifiedPage() {
             >
               Get Installment Plan
             </Link>
+            <p className="text-xs text-center text-blue-200 mt-2">Plan activates after document verification</p>
           </div>
         </div>
 
