@@ -76,6 +76,13 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 
     const body = await request.json();
     const { role, isActive, name, sellerVerificationStatus, action, entitlement, value } = body;
+
+    const user = await User.findById(id);
+
+    if (!user) {
+      return NextResponse.json({ error: 'User not found' }, { status: 404 });
+    }
+
     // Admin override: verification status
     if (action === 'updateVerification' && sellerVerificationStatus) {
       user.sellerVerificationStatus = sellerVerificationStatus;
@@ -90,12 +97,6 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
       if (entitlement === 'analytics') {
         user.sellerProActive = !!value;
       }
-    }
-
-    const user = await User.findById(id);
-
-    if (!user) {
-      return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
     // Prevent self-demotion from admin
