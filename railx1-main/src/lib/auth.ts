@@ -53,7 +53,7 @@ export const authOptions: NextAuthOptions = {
         },
       },
       async authorize(credentials) {
-        // SIMPLIFIED DEBUG VERSION - Find exactly where it fails
+        // v2.1.0 - NO .lean(), use Mongoose doc with comparePassword()
         try {
           console.log('AUTH START - email:', credentials?.email);
           
@@ -65,10 +65,9 @@ export const authOptions: NextAuthOptions = {
           await connectDB();
           console.log('AUTH: DB connected');
 
-          // Use direct findOne with password selected (not findByEmail wrapper)
+          // Get Mongoose document (NO .lean()) so comparePassword() method works
           const user = await User.findOne({ email: credentials.email.toLowerCase() })
-            .select('+password')
-            .lean();
+            .select('+password');
           
           console.log('AUTH: User found:', user ? {
             id: user._id?.toString(),
@@ -94,8 +93,8 @@ export const authOptions: NextAuthOptions = {
             return null;
           }
 
-          // Use static bcrypt import (not dynamic - dynamic import has .default issues)
-          const isValid = await bcrypt.compare(credentials.password, user.password);
+          // Use Mongoose document method (NOT direct bcrypt.compare)
+          const isValid = await user.comparePassword(credentials.password);
           console.log('AUTH: Password valid:', isValid);
 
           if (!isValid) {
