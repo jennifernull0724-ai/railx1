@@ -265,6 +265,7 @@ export default function PricingContent() {
                     </div>
                   );
                 })}
+                </div>
               </div>
             )}
 
