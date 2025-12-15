@@ -1,35 +1,34 @@
 /**
  * THE RAIL EXCHANGE™ — Pricing Content
  * =====================================
- * BATCH 12 REQUIREMENTS:
- * - Tabs: Seller Plans | Contractor Plans | Add-ons ✓
- * - Seller plans prioritized (default tab) ✓
- * - No comparison table ✓
- * - Add-ons: Top 3 + "See all add-ons" link ✓
- * - FAQ collapsed (accordion) ✓
- * - CTA labels: Free→"Get Started Free", Paid(out)→"Get Started", Paid(in)→"Upgrade Now"
- * - OMIT: Stacked pricing sections, large promo banners, duplicate feature lists
+ * CANONICAL PRICING STRUCTURE (LOCKED - DO NOT MODIFY):
+ * 
+ * 1. BUYERS — $1 one-time identity verification (anti-spam)
+ * 2. SELLERS — $29/year seller verification (required to publish)
+ * 3. PROFESSIONAL SERVICES — $2,500/year OR $1,500/6 months
+ *    - For BOTH contractors AND companies
+ *    - Unlocks full services + analytics + visibility
+ * 
+ * ❌ NO SELLER TIERS (no Basic/Plus/Pro)
+ * ❌ NO MONTHLY SUBSCRIPTIONS
+ * ❌ NO CONTRACTOR TIERS (only Professional Services)
+ * 
+ * TABS: Verification | Professional Services | Add-ons
  */
 
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import {
-  SELLER_TIER_CONFIG,
-  CONTRACTOR_TIER_CONFIG,
   ADD_ON_METADATA,
   ADD_ON_PRICING,
-  SELLER_TIERS,
-  CONTRACTOR_TIERS,
   ADD_ON_TYPES,
   formatPrice,
-  formatAddOnDuration,
 } from '@/config/pricing';
 import SiteHeader from '@/components/SiteHeader';
 import PricingCheckoutButton from '@/components/PricingCheckoutButton';
-import { Check, Crown, Star, TrendingUp } from 'lucide-react';
+import { Check, Crown, Star, TrendingUp, ShieldCheck, User, Briefcase } from 'lucide-react';
 
 // API-based session hook for public pages (no SessionProvider required)
 function useOptionalSession() {
@@ -47,23 +46,7 @@ function useOptionalSession() {
 
 export default function PricingContent() {
   const isLoggedIn = useOptionalSession();
-  const searchParams = useSearchParams();
-  const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'yearly'>('monthly');
-  const [activeTab, setActiveTab] = useState<'seller' | 'contractor' | 'addons'>('seller');
-  
-  // Get promo code from URL
-  const promoCode = searchParams.get('promo') || undefined;
-
-  const sellerTiers = [
-    SELLER_TIER_CONFIG[SELLER_TIERS.BASIC],
-    SELLER_TIER_CONFIG[SELLER_TIERS.PLUS],
-    SELLER_TIER_CONFIG[SELLER_TIERS.PRO],
-  ];
-
-  // Professional Plan - unified for Contractors and Companies
-  const professionalTiers = [
-    CONTRACTOR_TIER_CONFIG[CONTRACTOR_TIERS.PROFESSIONAL],
-  ];
+  const [activeTab, setActiveTab] = useState<'verification' | 'professional' | 'addons'>('verification');
 
   // Elite is the ONLY placement tier (no Premium/Featured)
   const top3Addons = [
@@ -71,27 +54,6 @@ export default function PricingContent() {
     { type: ADD_ON_TYPES.AI_ENHANCEMENT, ...ADD_ON_METADATA[ADD_ON_TYPES.AI_ENHANCEMENT], price: ADD_ON_PRICING[ADD_ON_TYPES.AI_ENHANCEMENT], icon: Star },
     { type: ADD_ON_TYPES.SPEC_SHEET, ...ADD_ON_METADATA[ADD_ON_TYPES.SPEC_SHEET], price: ADD_ON_PRICING[ADD_ON_TYPES.SPEC_SHEET], icon: TrendingUp },
   ];
-
-  const getPrice = (tier: { priceMonthly: number; priceYearly?: number }) => {
-    if (billingPeriod === 'yearly' && tier.priceYearly) {
-      return tier.priceYearly / 12;
-    }
-    return tier.priceMonthly;
-  };
-
-  const getSavings = (tier: { priceMonthly: number; priceYearly?: number }) => {
-    if (!tier.priceYearly || tier.priceMonthly === 0) return 0;
-    const yearlyTotal = tier.priceYearly;
-    const monthlyTotal = tier.priceMonthly * 12;
-    return monthlyTotal - yearlyTotal;
-  };
-
-  // CTA Label logic: Free→"Get Started Free", Paid(out)→"Get Started", Paid(in)→"Upgrade Now"
-  const getCtaLabel = (tier: { priceMonthly: number }) => {
-    if (tier.priceMonthly === 0) return 'Get Started Free';
-    if (!isLoggedIn) return 'Get Started';
-    return 'Upgrade Now';
-  };
 
   return (
     <>
@@ -104,52 +66,25 @@ export default function PricingContent() {
               Simple, Transparent Pricing
             </h1>
             <p className="text-text-secondary mb-8 max-w-xl mx-auto">
-              No hidden fees, cancel anytime.
+              No hidden fees. No monthly subscriptions. Pay for what you need.
             </p>
 
-            {/* Billing Toggle */}
-            <div className="inline-flex items-center gap-2 p-1 bg-surface-secondary rounded-full mb-8">
-              <button
-                onClick={() => setBillingPeriod('monthly')}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                  billingPeriod === 'monthly'
-                    ? 'bg-white text-navy-900 shadow-sm'
-                    : 'text-text-secondary'
-                }`}
-              >
-                Monthly
-              </button>
-              <button
-                onClick={() => setBillingPeriod('yearly')}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all flex items-center gap-2 ${
-                  billingPeriod === 'yearly'
-                    ? 'bg-white text-navy-900 shadow-sm'
-                    : 'text-text-secondary'
-                }`}
-              >
-                Yearly
-                <span className="text-xs px-2 py-0.5 bg-green-100 text-green-700 rounded-full">
-                  Save 17%
-                </span>
-              </button>
-            </div>
-
-            {/* Tabs: Seller | Contractor | Add-ons */}
+            {/* Tabs: Verification | Professional Services | Add-ons */}
             <div className="flex justify-center gap-1 border-b border-surface-border">
               <button
-                onClick={() => setActiveTab('seller')}
+                onClick={() => setActiveTab('verification')}
                 className={`px-6 py-3 text-sm font-medium border-b-2 transition-colors ${
-                  activeTab === 'seller'
+                  activeTab === 'verification'
                     ? 'border-rail-orange text-rail-orange'
                     : 'border-transparent text-text-secondary hover:text-navy-900'
                 }`}
               >
-                Seller Plans
+                Verification
               </button>
               <button
-                onClick={() => setActiveTab('contractor')}
+                onClick={() => setActiveTab('professional')}
                 className={`px-6 py-3 text-sm font-medium border-b-2 transition-colors ${
-                  activeTab === 'contractor'
+                  activeTab === 'professional'
                     ? 'border-rail-orange text-rail-orange'
                     : 'border-transparent text-text-secondary hover:text-navy-900'
                 }`}
@@ -173,110 +108,142 @@ export default function PricingContent() {
         {/* Tab Content */}
         <section className="py-12">
           <div className="container-rail">
-            {/* Seller Plans */}
-            {activeTab === 'seller' && (
-              <div className="max-w-5xl mx-auto">
-                <p className="text-center text-sm text-text-secondary mb-6">
-                  Seller verification ($29/year) is required to publish listings and is separate from optional subscription tiers.
-                </p>
-                <div className="grid md:grid-cols-3 gap-6">
-                {sellerTiers.map((tier) => {
-                  const monthlyPrice = getPrice(tier);
-                  const savings = getSavings(tier);
-                  
-                  return (
-                    <div
-                      key={tier.id}
-                      className={`bg-white rounded-xl p-6 ${
-                        tier.isPopular 
-                          ? 'ring-2 ring-rail-orange shadow-lg' 
-                          : 'border border-surface-border'
-                      }`}
-                    >
-                      {tier.isPopular && (
-                        <div className="text-xs font-semibold text-rail-orange mb-2">Most Popular</div>
-                      )}
-                      <h3 className="text-lg font-bold text-navy-900 mb-1">{tier.name}</h3>
-                      <p className="text-sm text-text-secondary mb-4">{tier.description}</p>
-                      
-                      <div className="mb-4">
-                        <span className="text-3xl font-bold text-navy-900">
-                          {formatPrice(monthlyPrice)}
-                        </span>
-                        {monthlyPrice > 0 && <span className="text-text-secondary">/mo</span>}
-                      </div>
-
-                      {billingPeriod === 'yearly' && savings > 0 && (
-                        <p className="text-sm text-green-600 mb-4">Save {formatPrice(savings)}/year</p>
-                      )}
-
-                      <p className="text-sm font-medium text-navy-900 mb-4">
-                        {tier.listingLimit === -1 ? 'Unlimited listings' : `Up to ${tier.listingLimit} listings`}
-                      </p>
-
-                      <ul className="space-y-2 mb-6">
-                        {tier.features.slice(0, 5).map((feature, idx) => (
-                          <li key={idx} className="flex items-start gap-2 text-sm text-text-secondary">
-                            <Check className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                            {feature}
-                          </li>
-                        ))}
-                      </ul>
-
-                      {isLoggedIn ? (
-                        tier.priceMonthly === 0 ? (
-                          <Link
-                            href="/dashboard"
-                            className={`block text-center w-full py-3 rounded-lg font-medium transition-colors ${
-                              tier.isPopular 
-                                ? 'bg-rail-orange text-white hover:bg-[#e55f15]' 
-                                : 'bg-navy-900 text-white hover:bg-navy-800'
-                            }`}
-                          >
-                            {getCtaLabel(tier)}
-                          </Link>
-                        ) : (
-                          <PricingCheckoutButton
-                            tier={tier.id}
-                            type="seller"
-                            billingPeriod={billingPeriod}
-                            promoCode={promoCode}
-                            className={`block text-center w-full py-3 rounded-lg font-medium transition-colors ${
-                              tier.isPopular 
-                                ? 'bg-rail-orange text-white hover:bg-[#e55f15]' 
-                                : 'bg-navy-900 text-white hover:bg-navy-800'
-                            }`}
-                          >
-                            {getCtaLabel(tier)}
-                          </PricingCheckoutButton>
-                        )
-                      ) : (
-                        <Link
-                          href="/auth/register"
-                          className={`block text-center w-full py-3 rounded-lg font-medium transition-colors ${
-                            tier.isPopular 
-                              ? 'bg-rail-orange text-white hover:bg-[#e55f15]' 
-                              : 'bg-navy-900 text-white hover:bg-navy-800'
-                          }`}
-                        >
-                          {getCtaLabel(tier)}
-                        </Link>
-                      )}
-                    </div>
-                  );
-                })}
+            {/* Verification Tab - Buyers & Sellers */}
+            {activeTab === 'verification' && (
+              <div className="max-w-4xl mx-auto">
+                <div className="text-center mb-8">
+                  <h2 className="text-xl font-bold text-navy-900 mb-2">Identity Verification</h2>
+                  <p className="text-text-secondary">
+                    Simple verification to ensure trust and prevent spam on the platform.
+                  </p>
                 </div>
+
+                <div className="grid md:grid-cols-2 gap-6">
+                  {/* Buyer Verification */}
+                  <div className="bg-white rounded-xl p-6 border border-surface-border">
+                    <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4">
+                      <User className="w-6 h-6 text-blue-600" />
+                    </div>
+                    <h3 className="text-lg font-bold text-navy-900 mb-1">Buyer Verification</h3>
+                    <p className="text-sm text-text-secondary mb-4">
+                      One-time identity confirmation for spam prevention and platform trust.
+                    </p>
+                    
+                    <div className="mb-4">
+                      <span className="text-3xl font-bold text-navy-900">$1</span>
+                      <span className="text-text-secondary ml-1">one-time</span>
+                    </div>
+
+                    <ul className="space-y-2 mb-6">
+                      <li className="flex items-start gap-2 text-sm text-text-secondary">
+                        <Check className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                        Contact sellers and submit inquiries
+                      </li>
+                      <li className="flex items-start gap-2 text-sm text-text-secondary">
+                        <Check className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                        Message service providers
+                      </li>
+                      <li className="flex items-start gap-2 text-sm text-text-secondary">
+                        <Check className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                        &quot;Identity Confirmed&quot; badge
+                      </li>
+                      <li className="flex items-start gap-2 text-sm text-text-secondary">
+                        <Check className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                        Lifetime access — no renewal
+                      </li>
+                    </ul>
+
+                    {isLoggedIn ? (
+                      <Link
+                        href="/dashboard/verification/buyer"
+                        className="block text-center w-full py-3 rounded-lg font-medium transition-colors bg-blue-600 text-white hover:bg-blue-700"
+                      >
+                        Verify Identity — $1
+                      </Link>
+                    ) : (
+                      <Link
+                        href="/auth/register"
+                        className="block text-center w-full py-3 rounded-lg font-medium transition-colors bg-blue-600 text-white hover:bg-blue-700"
+                      >
+                        Get Started
+                      </Link>
+                    )}
+                    <p className="text-xs text-center text-text-tertiary mt-3">
+                      Required to contact sellers. Browse listings free without verification.
+                    </p>
+                  </div>
+
+                  {/* Seller Verification */}
+                  <div className="bg-white rounded-xl p-6 border border-surface-border">
+                    <div className="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center mb-4">
+                      <ShieldCheck className="w-6 h-6 text-emerald-600" />
+                    </div>
+                    <h3 className="text-lg font-bold text-navy-900 mb-1">Seller Verification</h3>
+                    <p className="text-sm text-text-secondary mb-4">
+                      Required to publish equipment listings on the marketplace.
+                    </p>
+                    
+                    <div className="mb-4">
+                      <span className="text-3xl font-bold text-navy-900">$29</span>
+                      <span className="text-text-secondary ml-1">/year</span>
+                    </div>
+
+                    <ul className="space-y-2 mb-6">
+                      <li className="flex items-start gap-2 text-sm text-text-secondary">
+                        <Check className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                        Publish equipment listings
+                      </li>
+                      <li className="flex items-start gap-2 text-sm text-text-secondary">
+                        <Check className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                        Receive buyer inquiries
+                      </li>
+                      <li className="flex items-start gap-2 text-sm text-text-secondary">
+                        <Check className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                        &quot;Identity Verified&quot; seller badge
+                      </li>
+                      <li className="flex items-start gap-2 text-sm text-text-secondary">
+                        <Check className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                        Access to listing add-ons
+                      </li>
+                    </ul>
+
+                    {isLoggedIn ? (
+                      <Link
+                        href="/dashboard/verification"
+                        className="block text-center w-full py-3 rounded-lg font-medium transition-colors bg-emerald-600 text-white hover:bg-emerald-700"
+                      >
+                        Get Verified — $29/year
+                      </Link>
+                    ) : (
+                      <Link
+                        href="/auth/register"
+                        className="block text-center w-full py-3 rounded-lg font-medium transition-colors bg-emerald-600 text-white hover:bg-emerald-700"
+                      >
+                        Get Started
+                      </Link>
+                    )}
+                    <p className="text-xs text-center text-text-tertiary mt-3">
+                      Verification is not a subscription. No feature tiers.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Disclaimer */}
+                <p className="text-xs text-center text-text-tertiary mt-8 max-w-2xl mx-auto">
+                  Verification confirms identity for platform trust. It does not imply endorsement, 
+                  purchasing authority, or guarantee of transaction outcomes.
+                </p>
               </div>
             )}
 
-            {/* Contractor/Company Plans - Professional Access */}
-            {activeTab === 'contractor' && (
+            {/* Professional Services Tab */}
+            {activeTab === 'professional' && (
               <div className="max-w-3xl mx-auto">
                 {/* Header */}
                 <div className="text-center mb-8">
-                  <h2 className="text-xl font-bold text-navy-900 mb-2">Professional Services Access</h2>
+                  <h2 className="text-xl font-bold text-navy-900 mb-2">Professional Services</h2>
                   <p className="text-text-secondary mb-4">
-                    One product, two entity types. Contractors and Companies get the same access, same price, same unlocks.
+                    One product for both contractors and companies. Same access, same price, same unlocks.
                   </p>
                   <div className="inline-flex items-center gap-4 px-4 py-2 bg-slate-50 rounded-lg text-sm text-text-secondary">
                     <span className="flex items-center gap-1.5">
@@ -296,32 +263,35 @@ export default function PricingContent() {
                     <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                       <span className="bg-green-500 text-white text-xs font-semibold px-3 py-1 rounded-full">Best Value</span>
                     </div>
-                    <div className="text-xs font-semibold text-green-600 mb-2 mt-2">Annual Prepay (Preferred)</div>
+                    <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-4 mt-2">
+                      <Briefcase className="w-6 h-6 text-green-600" />
+                    </div>
+                    <div className="text-xs font-semibold text-green-600 mb-2">Annual (Preferred)</div>
                     <div className="mb-4">
                       <span className="text-3xl font-bold text-navy-900">$2,500</span>
                       <span className="text-text-secondary">/year</span>
                     </div>
-                    <p className="text-sm text-green-600 font-medium mb-4">Save $2,000 vs installment option</p>
+                    <p className="text-sm text-green-600 font-medium mb-4">Save $500 vs 6-month option</p>
                     <ul className="space-y-2 mb-6">
                       <li className="flex items-start gap-2 text-sm text-text-secondary">
                         <Check className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                        Single annual payment
+                        Directory listing &amp; map visibility
                       </li>
                       <li className="flex items-start gap-2 text-sm text-text-secondary">
                         <Check className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                        Verification included
+                        Verification badge included
                       </li>
                       <li className="flex items-start gap-2 text-sm text-text-secondary">
                         <Check className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                        Full analytics suite
+                        Full analytics dashboard
                       </li>
                       <li className="flex items-start gap-2 text-sm text-text-secondary">
                         <Check className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                        Map visibility & directory listing
+                        Receive service inquiries
                       </li>
                       <li className="flex items-start gap-2 text-sm text-text-secondary">
                         <Check className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                        Full dashboard access
+                        Priority support
                       </li>
                     </ul>
                     {isLoggedIn ? (
@@ -338,20 +308,22 @@ export default function PricingContent() {
                         href="/auth/register"
                         className="block text-center w-full py-3 rounded-lg font-medium transition-colors bg-green-600 text-white hover:bg-green-700"
                       >
-                        Get Annual Plan
+                        Get Started
                       </Link>
                     )}
-                    <p className="text-xs text-center text-green-200 mt-2">Plan activates after account verification</p>
                   </div>
 
-                  {/* Installment Option */}
+                  {/* 6-Month Option */}
                   <div className="bg-white rounded-xl p-6 border border-surface-border">
-                    <div className="text-xs font-semibold text-text-tertiary mb-2">Installment Option</div>
+                    <div className="w-12 h-12 bg-slate-100 rounded-xl flex items-center justify-center mb-4">
+                      <Briefcase className="w-6 h-6 text-slate-600" />
+                    </div>
+                    <div className="text-xs font-semibold text-text-tertiary mb-2">6-Month Option</div>
                     <div className="mb-4">
                       <span className="text-3xl font-bold text-navy-900">$1,500</span>
-                      <span className="text-text-secondary">/5 months</span>
+                      <span className="text-text-secondary">/6 months</span>
                     </div>
-                    <p className="text-sm text-text-tertiary mb-4">3 payments per year • $4,500 total annually</p>
+                    <p className="text-sm text-text-tertiary mb-4">$3,000 total if renewed twice per year</p>
                     <ul className="space-y-2 mb-6">
                       <li className="flex items-start gap-2 text-sm text-text-secondary">
                         <Check className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
@@ -359,15 +331,15 @@ export default function PricingContent() {
                       </li>
                       <li className="flex items-start gap-2 text-sm text-text-secondary">
                         <Check className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                        Verification included
-                      </li>
-                      <li className="flex items-start gap-2 text-sm text-text-secondary">
-                        <Check className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
                         Same features as annual
                       </li>
                       <li className="flex items-start gap-2 text-sm text-text-secondary">
                         <Check className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
-                        Auto-renews every 5 months
+                        Verification badge included
+                      </li>
+                      <li className="flex items-start gap-2 text-sm text-text-secondary">
+                        <Check className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                        Renews every 6 months
                       </li>
                     </ul>
                     {isLoggedIn ? (
@@ -377,31 +349,37 @@ export default function PricingContent() {
                         billingPeriod="installment"
                         className="block text-center w-full py-3 rounded-lg font-medium transition-colors bg-navy-900 text-white hover:bg-navy-800"
                       >
-                        Get Installment Plan
+                        Get 6-Month Plan
                       </PricingCheckoutButton>
                     ) : (
                       <Link
                         href="/auth/register"
                         className="block text-center w-full py-3 rounded-lg font-medium transition-colors bg-navy-900 text-white hover:bg-navy-800"
                       >
-                        Get Installment Plan
+                        Get Started
                       </Link>
                     )}
-                    <p className="text-xs text-center text-text-tertiary mt-2">Plan activates after account verification</p>
                   </div>
                 </div>
-                <p className="text-xs text-center text-text-secondary mt-4">
-                  For contractors and companies. Verification reflects document review only.
+
+                {/* Disclaimer */}
+                <p className="text-xs text-center text-text-tertiary mt-8 max-w-2xl mx-auto">
+                  Professional Services applies to both contractors and companies. 
+                  Verification reflects document review only — not endorsement or quality guarantee.
                 </p>
               </div>
             )}
 
-            {/* Add-ons - Top 3 only + See All */}
+            {/* Add-ons Tab */}
             {activeTab === 'addons' && (
               <div className="max-w-4xl mx-auto">
-                <p className="text-center text-sm text-text-secondary mb-6">
-                  Elite is the only placement tier available. AI Enhancement and Spec Sheet are one-time purchases.
-                </p>
+                <div className="text-center mb-8">
+                  <h2 className="text-xl font-bold text-navy-900 mb-2">Listing Add-ons</h2>
+                  <p className="text-text-secondary">
+                    Enhance your listings with visibility boosts and AI-powered tools.
+                  </p>
+                </div>
+                
                 <div className="grid md:grid-cols-3 gap-6 mb-8">
                   {top3Addons.map((addon) => {
                     const Icon = addon.icon;
@@ -415,87 +393,133 @@ export default function PricingContent() {
                         </div>
                         <h3 className="text-lg font-semibold text-navy-900 mb-1">{addon.name}</h3>
                         <p className="text-sm text-text-secondary mb-4">{addon.shortDescription}</p>
-                        <div className="flex items-baseline gap-1">
+                        <div className="flex items-baseline gap-1 mb-4">
                           <span className="text-2xl font-bold text-navy-900">{formatPrice(addon.price)}</span>
+                          {addon.type === ADD_ON_TYPES.ELITE && (
+                            <span className="text-text-secondary text-sm">/30 days</span>
+                          )}
+                          {addon.type !== ADD_ON_TYPES.ELITE && (
+                            <span className="text-text-secondary text-sm">one-time</span>
+                          )}
                         </div>
-                        <span className="text-xs text-text-tertiary">{formatAddOnDuration(addon.type)}</span>
+                        {isLoggedIn ? (
+                          <Link
+                            href="/dashboard/listings"
+                            className="block text-center w-full py-2 rounded-lg font-medium transition-colors bg-navy-900 text-white hover:bg-navy-800 text-sm"
+                          >
+                            Apply to Listing
+                          </Link>
+                        ) : (
+                          <Link
+                            href="/auth/register"
+                            className="block text-center w-full py-2 rounded-lg font-medium transition-colors bg-navy-900 text-white hover:bg-navy-800 text-sm"
+                          >
+                            Get Started
+                          </Link>
+                        )}
                       </div>
                     );
                   })}
                 </div>
-                <div className="text-center">
-                  <Link
-                    href="/dashboard/addons"
-                    className="text-rail-orange font-medium hover:underline"
-                  >
-                    See all add-ons →
-                  </Link>
-                </div>
+
+                <p className="text-xs text-center text-text-tertiary">
+                  Add-ons are available to verified sellers. Elite Placement is the only visibility tier — 
+                  no Premium or Featured tiers exist.
+                </p>
               </div>
             )}
           </div>
         </section>
 
-        {/* FAQ - Collapsed */}
-        <section className="py-12 border-t border-surface-border">
-          <div className="container-rail">
-            <h2 className="text-2xl font-bold text-navy-900 text-center mb-8">FAQ</h2>
-            <div className="max-w-2xl mx-auto space-y-2">
-              <details className="bg-white rounded-lg border border-surface-border group">
-                <summary className="p-4 font-medium text-navy-900 cursor-pointer list-none flex items-center justify-between">
-                  Can I change my plan at any time?
-                  <svg className="w-5 h-5 text-text-tertiary group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
+        {/* FAQ Section */}
+        <section className="py-12 bg-slate-50">
+          <div className="container-rail max-w-3xl mx-auto">
+            <h2 className="text-2xl font-bold text-navy-900 mb-8 text-center">
+              Frequently Asked Questions
+            </h2>
+            
+            <div className="space-y-4">
+              <details className="bg-white rounded-xl border border-surface-border p-4 group">
+                <summary className="font-medium text-navy-900 cursor-pointer list-none flex justify-between items-center">
+                  Do I need to verify to browse listings?
+                  <span className="text-text-tertiary group-open:rotate-180 transition-transform">▼</span>
                 </summary>
-                <div className="px-4 pb-4 text-sm text-text-secondary">
-                  Yes! You can upgrade or downgrade your plan at any time. When upgrading, you&apos;ll be charged the prorated difference.
-                </div>
+                <p className="text-text-secondary mt-3 text-sm">
+                  No. Anyone can browse listings and search the marketplace without any verification. 
+                  Buyer verification ($1 one-time) is only required to contact sellers or submit inquiries.
+                </p>
               </details>
-              <details className="bg-white rounded-lg border border-surface-border group">
-                <summary className="p-4 font-medium text-navy-900 cursor-pointer list-none flex items-center justify-between">
-                  What happens to my listings if I downgrade?
-                  <svg className="w-5 h-5 text-text-tertiary group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
+
+              <details className="bg-white rounded-xl border border-surface-border p-4 group">
+                <summary className="font-medium text-navy-900 cursor-pointer list-none flex justify-between items-center">
+                  What&apos;s the difference between contractor and company?
+                  <span className="text-text-tertiary group-open:rotate-180 transition-transform">▼</span>
                 </summary>
-                <div className="px-4 pb-4 text-sm text-text-secondary">
-                  Your existing listings will remain active. However, if you exceed the listing limit of your new plan, you won&apos;t be able to create new listings.
-                </div>
+                <p className="text-text-secondary mt-3 text-sm">
+                  Both contractors and companies access Professional Services for the same price ($2,500/year or $1,500/6 months). 
+                  The difference is in profile format only — the features, analytics, and visibility are identical.
+                </p>
               </details>
-              <details className="bg-white rounded-lg border border-surface-border group">
-                <summary className="p-4 font-medium text-navy-900 cursor-pointer list-none flex items-center justify-between">
-                  How long do add-ons last?
-                  <svg className="w-5 h-5 text-text-tertiary group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
+
+              <details className="bg-white rounded-xl border border-surface-border p-4 group">
+                <summary className="font-medium text-navy-900 cursor-pointer list-none flex justify-between items-center">
+                  Are there monthly subscription plans?
+                  <span className="text-text-tertiary group-open:rotate-180 transition-transform">▼</span>
                 </summary>
-                <div className="px-4 pb-4 text-sm text-text-secondary">
-                  Featured, Premium, and Elite add-ons last 30 days. AI Enhancement and Spec Sheet are one-time purchases.
-                </div>
+                <p className="text-text-secondary mt-3 text-sm">
+                  No. We do not offer monthly subscriptions for any product. Verification is one-time (buyers) or annual (sellers). 
+                  Professional Services is annual or 6-month billing only.
+                </p>
               </details>
-              <details className="bg-white rounded-lg border border-surface-border group">
-                <summary className="p-4 font-medium text-navy-900 cursor-pointer list-none flex items-center justify-between">
-                  Is there a free trial?
-                  <svg className="w-5 h-5 text-text-tertiary group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
+
+              <details className="bg-white rounded-xl border border-surface-border p-4 group">
+                <summary className="font-medium text-navy-900 cursor-pointer list-none flex justify-between items-center">
+                  Is seller verification a subscription?
+                  <span className="text-text-tertiary group-open:rotate-180 transition-transform">▼</span>
                 </summary>
-                <div className="px-4 pb-4 text-sm text-text-secondary">
-                  Buyers can browse and contact sellers completely free. Sellers can start with a basic plan.
-                </div>
+                <p className="text-text-secondary mt-3 text-sm">
+                  Seller verification ($29/year) is a simple annual renewal to maintain listing privileges. 
+                  It is not a tiered subscription — there are no Basic, Plus, or Pro plans.
+                </p>
               </details>
-              <details className="bg-white rounded-lg border border-surface-border group">
-                <summary className="p-4 font-medium text-navy-900 cursor-pointer list-none flex items-center justify-between">
-                  What&apos;s the difference between annual and installment billing for Professional Access?
-                  <svg className="w-5 h-5 text-text-tertiary group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
+
+              <details className="bg-white rounded-xl border border-surface-border p-4 group">
+                <summary className="font-medium text-navy-900 cursor-pointer list-none flex justify-between items-center">
+                  What does verification actually verify?
+                  <span className="text-text-tertiary group-open:rotate-180 transition-transform">▼</span>
                 </summary>
-                <div className="px-4 pb-4 text-sm text-text-secondary">
-                  Both options include identical features. Annual prepay ($2,500/year) saves $2,000 compared to installments ($1,500 every 5 months, totaling $4,500/year). Annual billing offers the best value.
-                </div>
+                <p className="text-text-secondary mt-3 text-sm">
+                  Verification confirms identity and reviews submitted documentation. It does not guarantee 
+                  work quality, licensing status, financial capability, or transaction outcomes. 
+                  All negotiations and transactions occur directly between parties.
+                </p>
               </details>
+            </div>
+          </div>
+        </section>
+
+        {/* CTA Section */}
+        <section className="py-16 bg-navy-900 text-white">
+          <div className="container-rail text-center">
+            <h2 className="text-2xl md:text-3xl font-bold mb-4">
+              Ready to get started?
+            </h2>
+            <p className="text-white/70 mb-8 max-w-xl mx-auto">
+              Join thousands of rail professionals buying, selling, and connecting on The Rail Exchange.
+            </p>
+            <div className="flex flex-wrap justify-center gap-4">
+              <Link
+                href="/auth/register"
+                className="inline-flex items-center justify-center px-6 py-3 bg-rail-orange text-white font-semibold rounded-xl hover:bg-[#e55f15] transition-colors"
+              >
+                Create Free Account
+              </Link>
+              <Link
+                href="/listings"
+                className="inline-flex items-center justify-center px-6 py-3 bg-white/10 border border-white/20 text-white font-semibold rounded-xl hover:bg-white/20 transition-colors"
+              >
+                Browse Marketplace
+              </Link>
             </div>
           </div>
         </section>

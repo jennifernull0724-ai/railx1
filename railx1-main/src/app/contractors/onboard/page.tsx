@@ -173,7 +173,7 @@ export default function ContractorOnboardingPage() {
       <div className="min-h-screen flex items-center justify-center bg-slate-50">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-navy-900 mb-4">Sign In Required</h2>
-          <p className="text-slate-600 mb-6">Please sign in to become a contractor.</p>
+          <p className="text-slate-600 mb-6">Please sign in to activate Professional Services.</p>
           <Link 
             href="/auth/login?callbackUrl=/contractors/onboard" 
             className="inline-flex items-center gap-2 bg-rail-orange text-white px-6 py-3 rounded-xl font-semibold hover:bg-[#e55f15] transition-colors"
@@ -323,7 +323,7 @@ export default function ContractorOnboardingPage() {
           {/* Title */}
           <div className="text-center mb-10">
             <h1 className="text-3xl md:text-4xl font-bold text-navy-900 mb-3">
-              Become a Contractor
+              Activate Professional Services
             </h1>
             <p className="text-lg text-slate-600">
               Complete your profile to start receiving project inquiries

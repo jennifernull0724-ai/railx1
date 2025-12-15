@@ -2,8 +2,10 @@
 export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Pricing Page
  * 
- * Premium pricing page with monthly/yearly toggle.
- * Displays subscription tiers, contractor plans, and marketplace add-ons.
+ * Canonical pricing structure:
+ * - Buyer verification: $1 one-time
+ * - Seller verification: $29/year  
+ * - Professional Services: $2,500/year OR $1,500/6 months
  */
 
 import { Metadata } from 'next';
