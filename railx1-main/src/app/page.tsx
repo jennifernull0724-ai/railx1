@@ -664,24 +664,17 @@ export default async function HomePage() {
         <section className="py-14 md:py-16 lg:py-20 bg-white">
           <div className="max-w-[1280px] mx-auto px-5 md:px-8 text-center">
             <h2 className="text-[28px] md:text-[36px] font-bold text-navy-900 tracking-tight mb-5">
-              Ready to Buy or Sell Rail Equipment?
+              Ready to Sell or Buy?
             </h2>
             <p className="text-[16px] md:text-[17px] text-slate-500 mb-10 max-w-xl mx-auto leading-relaxed">
-              Create listings for free — verify to publish. Connect with buyers and sellers nationwide.
-              Join the dedicated marketplace for rail professionals.
+              Visit the marketplace to connect with buyers, sellers, and service providers across the rail industry.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link 
-                href="/listings/create" 
-                className="inline-flex items-center justify-center h-14 px-8 bg-rail-orange text-white text-[16px] font-semibold rounded-xl shadow-sm hover:bg-[#e55f15] hover:shadow-md transition-all duration-200"
-              >
-                List Your Equipment
-              </Link>
+            <div className="flex justify-center">
               <Link 
                 href="/listings" 
-                className="inline-flex items-center justify-center h-14 px-8 bg-white border-2 border-navy-900 text-navy-900 text-[16px] font-semibold rounded-xl hover:bg-navy-900 hover:text-white transition-all duration-200"
+                className="inline-flex items-center justify-center h-14 px-8 bg-rail-orange text-white text-[16px] font-semibold rounded-xl shadow-sm hover:bg-[#e55f15] hover:shadow-md transition-all duration-200"
               >
-                Browse Equipment Now
+                Browse Marketplace
               </Link>
             </div>
           </div>
@@ -735,7 +728,6 @@ export default async function HomePage() {
               <ul className="space-y-3 md:space-y-2">
                 <li><Link href="/contractors" className="text-[14px] md:text-[13px] text-white/70 hover:text-white transition-colors leading-relaxed">Browse Directory</Link></li>
                 <li><Link href="/dashboard/contractor/verify" className="text-[14px] md:text-[13px] text-white/70 hover:text-white transition-colors leading-relaxed">Create Profile</Link></li>
-                <li><Link href="/contractors?verified=true" className="text-[14px] md:text-[13px] text-white/70 hover:text-white transition-colors leading-relaxed">Verified Only</Link></li>
               </ul>
             </div>
 
