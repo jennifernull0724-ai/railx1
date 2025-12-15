@@ -89,14 +89,14 @@
           </label>
         </div>
       </div>
+
+'use client';
 /**
 export const dynamic = 'force-dynamic';
  * THE RAIL EXCHANGE™ — Admin User Detail Page
  * 
  * View and manage individual user details.
  */
-
-'use client';
 
 import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
