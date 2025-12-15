@@ -1,3 +1,6 @@
+  'use client';
+  // THIS FILE IS A CLIENT COMPONENT
+// ...existing code...
   // Admin override: verification status
   const updateVerificationStatus = async (newStatus: string) => {
     if (!user) return;
