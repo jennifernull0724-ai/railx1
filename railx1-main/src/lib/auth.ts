@@ -151,6 +151,19 @@ export const authOptions: NextAuthOptions = {
   },
 
   callbacks: {
+    // CRITICAL: Explicit signIn callback to ensure all valid users can log in
+    // Without this, certain edge cases can cause 401 on credentials callback
+    async signIn({ user }) {
+      // If authorize() returned a user, allow sign in
+      // This should always return true since authorize() already validated
+      if (user && user.id) {
+        console.log('[AUTH DEBUG] signIn() - allowing user:', user.email);
+        return true;
+      }
+      console.log('[AUTH DEBUG] signIn() - blocking, no valid user');
+      return false;
+    },
+
     async jwt({ token, user, trigger, session }) {
       // SEV-1 DEBUG: JWT callback logging
       console.log('[AUTH DEBUG] jwt() callback - trigger:', trigger, 'hasUser:', !!user);
