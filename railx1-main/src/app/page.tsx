@@ -441,7 +441,7 @@ export default async function HomePage() {
                   href="/listings/create"
                   className="inline-flex items-center justify-center h-11 px-6 bg-rail-orange text-white text-[14px] font-semibold rounded-xl hover:bg-[#e55f15] transition-colors"
                 >
-                  List Equipment
+                  List an Asset
                 </Link>
               </div>
             )}
