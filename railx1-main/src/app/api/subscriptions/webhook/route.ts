@@ -1,4 +1,8 @@
 export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
+
+// Disable body size limit for webhook payloads
+export const fetchCache = 'force-no-store';
 
 /**
  * THE RAIL EXCHANGE™ — Stripe Subscription Webhook Handler
